@@ -1,0 +1,58 @@
+{
+  "name": "ruoyi-olive",
+  "version": "3.8.4",
+  "description": "由 Ruoyi-Geek 演化而来，感谢开源所有作者",
+  "author": "olive",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build:prod": "vite build",
+    "build:stage": "vite build --mode staging",
+    "preview": "vite preview"
+  },
+  "engines": {
+    "node": "^18.0.0 || >=20.0.0"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "2.3.1",
+    "@vueuse/core": "11.1.0",
+    "axios": "1.7.9",
+    "vkbeautify": "^0.99.3",
+    "diagram-js": "^14.11.3",
+    "diagram-js-grid": "^1.0.0",
+    "echarts": "5.5.1",
+    "element-plus": "2.8.4",
+    "file-saver": "2.0.5",
+    "fuse.js": "7.0.0",
+    "highlight.js": "^11.10.0",
+    "js-cookie": "3.0.5",
+    "jsencrypt": "3.3.2",
+    "min-dash": "^4.2.1",
+    "minimatch": "^10.0.1",
+    "mitt": "^3.0.1",
+    "nprogress": "0.2.0",
+    "pinia": "2.2.4",
+    "qrcode": "^1.5.4",
+    "quill": "^2.0.2",
+    "quill-better-table": "^1.2.10",
+    "three": "^0.169.0",
+    "vform3-builds": "^3.0.10",
+    "vue": "3.5.11",
+    "vue-cropper": "1.1.1",
+    "vue-router": "4.4.5",
+    "vue3-print-nb": "^0.1.4"
+  },
+  "devDependencies": {
+    "@types/three": "^0.169.0",
+    "@vitejs/plugin-vue": "5.1.4",
+    "@vue/compiler-sfc": "3.5.11",
+    "sass": "1.79.4",
+    "tslib": "^2.7.0",
+    "unplugin-auto-import": "0.18.3",
+    "vite": "5.4.8",
+    "vite-plugin-compression": "0.5.1",
+    "vite-plugin-svg-icons": "2.0.1",
+    "vite-plugin-vue-setup-extend": "0.4.0"
+  }
+}

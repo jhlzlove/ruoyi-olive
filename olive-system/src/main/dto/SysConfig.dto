@@ -1,0 +1,7 @@
+export com.olive.system.domain.SysConfig
+
+specification SysConfigSearch {
+    like(configName)
+    like(configKey)
+    eq(configType)
+}

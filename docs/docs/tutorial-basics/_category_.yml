@@ -1,0 +1,13 @@
+position: 1 # float position is supported
+label: 基础
+# 是否可折叠，默认可折叠
+# collapsible: true
+# 是否折叠，默认折叠
+# collapsed: false
+className: red
+link:
+  type: generated-index
+  title: 所有文章
+  description: 5 minutes to learn the most important Docusaurus concepts.
+customProps:
+  description: This description can be used in the swizzled DocCard

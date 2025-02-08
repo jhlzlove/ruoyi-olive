@@ -1,0 +1,10 @@
+position: 3 # float position is supported
+label: 进阶
+# collapsible: true
+# collapsed: true
+className: red
+link:
+  type: doc
+  id: index
+customProps:
+  description: This description can be used in the swizzled DocCard

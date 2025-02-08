@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ruoyi-olive</artifactId>
+        <groupId>com.olive</groupId>
+        <version>${revision}</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+    <artifactId>olive-extension</artifactId>
+
+    <description>
+        项目扩展模块
+    </description>
+
+    <modules>
+        <module>olive-websocket</module>
+        <module>olive-extension-starter</module>
+        <module>olive-generator</module>
+        <module>olive-job</module>
+    </modules>
+
+    <properties>
+        <simple.version>1.0.0</simple.version>
+        <websocket.version>0.0.1</websocket.version>
+        <mybatis.plus>3.5.8</mybatis.plus>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- websocket -->
+            <dependency>
+                <groupId>com.olive</groupId>
+                <artifactId>olive-websocket</artifactId>
+                <version>${websocket.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.olive</groupId>
+                <artifactId>olive-generator</artifactId>
+                <version>${simple.version}</version>
+            </dependency>
+
+            <!-- mybatis plus -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+                <version>${mybatis.plus}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>

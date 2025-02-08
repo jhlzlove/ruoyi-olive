@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  mysql:
+    image: swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/mysql:8.0.39
+    container_name: mysql8
+    restart: always
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ruoyi_olive
+      MYSQL_ROOT_HOST: '%'
+    networks:
+      - ruoyi-olive
+    volumes:
+      - /data/server/podman/mysql8/data:/var/lib/mysql
+      - /data/server/podman/mysql8/log:/var/log/mysql
+      - /data/server/podman/mysql8/conf.d:/etc/mysql/conf.d
+    command: --bind-address=0.0.0.0
+
+  redis:
+    image: swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/redis:7.4.1
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    environment:
+      REDIS_PASSWORD: Shty@2024.
+    networks:
+      - ruoyi-olive
+    volumes:
+      - /data/server/podman/redis/data:/data
+      - /data/server/podman/redis/conf.d:/etc/redis
+      - /data/server/podman/redis/log:/var/log/redis
+
+  nginx:
+    image: swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/library/nginx:1.27
+    container_name: nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - /data/server/podman/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - /data/server/podman/nginx/html:/usr/share/nginx/html
+      - /data/server/podman/nginx/conf.d:/etc/nginx/conf.d
+      - /data/server/podman/nginx/logs:/var/log/nginx
+    networks:
+      - ruoyi-olive
+
+networks:
+  ruoyi-olive:
+    driver: bridge

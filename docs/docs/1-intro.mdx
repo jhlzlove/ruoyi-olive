@@ -1,0 +1,68 @@
+# 简介
+
+根植于 Ruoyi、脱胎于 Ruoyi-Geek 的一个 Demo，感谢前两个项目的所有作者以及贡献者。主要是想学习一下 Jimmer，体验一下改造旧项目的快(痛)乐(苦)🤣
+
+文档系统使用 [Docusaurus](https://docusaurus.io/) 😄
+
+这个仓库移除了原框架较多的东西，属于破坏性更改，后续不再兼容前面所述的框架。因此，
+
+这个项目适合于：
+
+- 纯粹的学习
+- Jimmer 学习
+- Java 学习
+- Spring Boot 学习
+- Maven 学习
+- Docusaurus 部署学习
+
+## 变更说明
+
+### 后端变更
+
+包括但可能不限于：
+
+- 移除 fastjson
+- 移除 httpclient
+- 移除 jjwt，添加 java-jwt
+- 移除 mybatis
+- 移除 pagehelper
+- 移除 knife4j（swagger）
+- 移除 quartz
+- 移除 原框架提供的一些工具类（不详叙，比较多）
+- 移除 AuthenticationContextHolder（重要，单独列出）
+- 移除 Online 扩展
+- 移除 代码生成器
+- 移除 其它浪子认为不必要的封装（包括但不限于依赖、工具类等），忘了，不列出
+- 引入 spring-boot-parent 管理项目
+- 引入 Jimmer
+- 接口、命名方式、结构组合、文件等按照自己的方式进行重命名
+- 配置文件修改
+- ...
+
+### 前端变更
+
+- 移除 在线表单设计器
+- 工具版本升级
+
+## 已损失功能 & 待完善
+
+- Excel 导入导出(已有示例)
+- 数据权限过滤
+- 返回结果格式不统一（AjaxResult 还未完全移除）
+- ORM 全面迁移至 Jimmer，保证基本功能可用（目前的查询多处冗余，大多按照之前的查询结果返回，亟需优化保证代码优雅和较好的 “味道”）
+- 事务完善（使用的注解式事务，写的时候简单测了一下，有的加了有的没加）
+- 数据库建模修改：加入外键、字段是否可 null 限制以及其它相关修改，并开启 Jimmer 验证（目前未启用，~~不然就是框框报错了，哥们儿~~）
+- 利用 Jimmer 缓存
+- 完善文件存储
+- 其它遗忘的功能改动
+- 增加统一网络调用、单元测试
+
+## 最后但并非不重要
+
+非常感谢以下开源项目以及项目中使用的所有开源库！这真的很酷！
+
+- [RuoYi](https://github.com/yangzongzhuan/RuoYi)
+- [Ruoyi-Geek-SpringBoot3](https://github.com/TheChosenPerson/Ruoyi-Geek-SpringBoot3)
+- [RuoYi-Geek-Vue3](https://github.com/TheChosenPerson/RuoYi-Geek-Vue3)
+- 项目中所用使用的库
+- ...

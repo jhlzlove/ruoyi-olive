@@ -1,0 +1,7 @@
+export com.olive.framework.web.system.SysRole
+
+specification SysRoleSearch {
+    like(roleName)
+    eq(roleKey)
+    eq(status)
+}

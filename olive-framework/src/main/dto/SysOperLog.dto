@@ -1,0 +1,9 @@
+export com.olive.framework.web.system.SysOperLog
+
+specification SysOperLogSearch {
+    like(title)
+    like(operName)
+    eq(businessType)
+    eq(status)
+//    operTime
+}

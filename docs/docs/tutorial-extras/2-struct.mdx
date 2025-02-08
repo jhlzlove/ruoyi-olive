@@ -1,0 +1,41 @@
+
+# 模块
+
+```bash
+├── docs
+├── olive-api
+├── olive-base
+├── olive-common
+├── olive-framework
+├── olive-plugins
+├── olive-system
+├── podman-compose.yml
+├── pom.xml
+├── sql
+```
+
+## 依赖关系
+
+olive-common 模块与框架无关，可以单独抽离出去为任何业务框架使用，主要作用是为项目使用的工具做一个隔离层。另，若有自定义的工具类也都可以放在
+这里，例如二进制解析等等。
+
+olive-framework 模块为项目的整体配置中心和业务处理核心（其实完全可以和 system 模块整合到一起）
+
+olive-system 为系统模块，是业务框架的核心功能点
+
+olive-extension 是扩展模块
+
+本项目作为一个应用级别的框架，而不是一个库级别框架，直接使用 `spring-boot-starter-parent` 依赖以充分享受 Spring Boot 带来的高效开发体验。
+
+```xml title="pom.xml"
+<parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>${spring.boot}</version>
+    <relativePath/> <!-- lookup parent from repository -->
+</parent>
+```
+
+- 依赖管理：它管理了 Spring Boot 项目中常用依赖的版本，避免了版本冲突的问题。
+- 插件管理：它预配置了一些常用的 Maven 插件，如 `spring-boot-maven-plugin`、`maven-compiler-plugin` 等，使用时无需自定义版本信息，简化了构建配置。
+- 默认配置：它提供了一些默认的配置，如编码、JAR 包的打包方式等，使得项目配置更加简洁。

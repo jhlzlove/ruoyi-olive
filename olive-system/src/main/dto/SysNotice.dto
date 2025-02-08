@@ -1,0 +1,7 @@
+export com.olive.system.domain.SysNotice
+
+specification SysNoticeSearch {
+    like(noticeTitle)
+    eq(noticeType)
+    like(createBy)
+}

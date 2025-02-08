@@ -1,0 +1,81 @@
+# Docusaurus 语法测试
+
+## 代码块
+
+### 默认
+
+```rust
+fn main() {
+    println!("Hello, world!");
+}
+```
+
+### 带 title
+
+```rust title="main.rs"
+fn main() {
+    println!("Hello, world!");
+}
+```
+
+### 带行号
+
+```rust title="main.rs" showLineNumbers
+fn main() {
+    println!("Hello, world!");
+}
+```
+
+### 块内行高亮
+
+```rust title="main.rs" showLineNumbers
+fn main() {
+    // highlight-next-line
+    println!("Hello, world!");
+}
+```
+
+## 折叠块
+
+<details>
+  <summary>点击展开</summary>
+  大江东去，浪淘尽
+</details>
+
+## 分组
+
+import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs';
+
+<Tabs>
+  <TabItem value="rust" label="Rust" default>
+    ```rust
+    fn main() {
+        println!("Hello, world!");
+    }
+    ```
+  </TabItem>
+</Tabs>
+
+## 语法信息块
+
+:::note 常规
+爆竹声中一岁除 千风送暖入屠苏
+千门万户曈曈日 总把新桃换旧符
+:::
+
+:::tip 提示
+老夫所心目中的江湖 是所有人自由选择的侠义之路 而非他人所操控的江湖
+:::
+
+:::info 重要
+我曾见过一双澄明如镜的眼眸，映照出的却是我的鬼魅之容
+:::
+
+:::warning 预警
+唯有南山与君眼 相逢不改旧时青
+:::
+
+:::danger 危险
+此情可待成追忆 只是当时已惘然
+:::

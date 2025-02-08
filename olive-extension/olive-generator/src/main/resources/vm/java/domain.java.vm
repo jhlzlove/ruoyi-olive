@@ -1,0 +1,68 @@
+package ${packageName}.domain;
+
+#foreach ($import in $importList)
+import ${import};
+#end
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import com.olive.common.annotation.Excel;
+import org.babyfish.jimmer.sql.Entity;
+import org.babyfish.jimmer.sql.Table;
+#if($table.crud || $table.sub)
+#elseif($table.tree)
+#end
+
+/**
+ * ${functionName}对象 ${tableName}
+ * 
+ * @author ${author}
+ * @since ${datetime}
+ */
+#if($table.crud || $table.sub)
+#set($Entity="BaseEntity")
+#elseif($table.tree)
+#set($Entity="TreeEntity")
+#end
+@Entity
+@Table(name = "${tableName}")
+@Schema(description = "${functionName}对象")
+public interface ${ClassName} extends ID, JimmerBaseEntity {
+
+#foreach ($column in $columns)
+#if(!$table.isSuperColumn($column.javaField))
+
+    /** $column.columnComment */
+    @Schema(title = "$column.columnComment")
+#if($column.list)
+#set($parentheseIndex=$column.columnComment.indexOf("（"))
+#if($parentheseIndex != -1)
+#set($comment=$column.columnComment.substring(0, $parentheseIndex))
+#else
+#set($comment=$column.columnComment)
+#end
+#if($parentheseIndex != -1)
+    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+#elseif($column.javaType == 'Date')
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "${comment}", width = 30, dateFormat = "yyyy-MM-dd")
+#elseif($column.javaType == 'Time')
+    @JsonFormat(pattern = "HH:mm:ss")
+#elseif($column.javaType == 'DateTime')
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+#end
+#end
+    $column.javaType ${column.javaField}();
+#if($column.subColumnTableName && $table.haveSubColumn == '1')
+
+    /** $column.javaField 到 $column.subColumnTableName 映射 */
+    private $column.subColumnJavaType $column.subColumnJavaField;
+#end
+#end
+#end
+#if($table.sub)
+    /** $table.subTable.functionName信息 */
+    List<${subClassName}> ${subclassName}List();
+
+#end
+
+}

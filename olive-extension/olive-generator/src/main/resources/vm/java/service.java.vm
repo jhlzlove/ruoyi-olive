@@ -1,0 +1,53 @@
+package ${packageName}.service;
+
+import java.util.List;
+import lombok.AllArgsConstructor;
+import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.stereotype.Service;
+import org.babyfish.jimmer.Page;
+import org.babyfish.jimmer.sql.JSqlClient;
+import ${packageName}.domain.${ClassName};
+
+/**
+ * ${functionName}Service接口
+ * 
+ * @author ${author}
+ * @since ${datetime}
+ */
+@Service
+@AllArgsConstructor
+public class ${ClassName}Service {
+    private final JSqlClient sqlClient;
+    private final ${ClassName} table = ${ClassName}.$;
+
+    /**
+     * 分页查询
+     * @return 分页结果
+     */
+    public Page<CompanyEntity> page(${ClassName} ${ClassName}, PageRecord page) {
+        return sqlClient.createQuery(table)
+                .select(table)
+                .fetchPage(page.pageNum() - 1, page.pageSize());
+    }
+
+    /**
+     * 获取详情
+     */
+    public ${ClassName} get${ClassName}ById(Long id) {
+        return sqlClient.findById(${ClassName}.class, id);
+    }
+
+    /**
+     * 新增
+     */
+    public boolean add(${ClassName} ${className}) {
+        return sqlClient.insert(${className}).isRowAffected();
+    }
+
+    /**
+     * 更新
+     */
+    public boolean edit(${ClassName} ${className}) {
+        sqlClient.update(${className}).isModified();
+    }
+}
