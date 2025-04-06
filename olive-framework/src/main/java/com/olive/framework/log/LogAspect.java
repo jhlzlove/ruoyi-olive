@@ -1,18 +1,17 @@
 package com.olive.framework.log;
 
-import com.olive.common.utils.LocalDateUtil;
-import com.olive.framework.manager.AsyncManager;
-import com.olive.framework.manager.factory.AsyncFactory;
-import com.olive.framework.util.JSON;
-import com.olive.framework.util.SecurityUtils;
+import com.olive.base.utils.LocalDateUtil;
 import com.olive.framework.util.ServletUtils;
-import com.olive.framework.util.StringUtils;
-import com.olive.framework.util.ip.AddressUtils;
-import com.olive.framework.util.ip.IpUtils;
-import com.olive.framework.web.system.*;
+import com.olive.model.*;
+import com.olive.service.manager.AsyncManager;
+import com.olive.service.manager.factory.AsyncFactory;
+import com.olive.service.util.JSON;
+import com.olive.service.util.ip.AddressUtils;
+import com.olive.service.util.ip.IpUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -22,7 +21,7 @@ import org.babyfish.jimmer.ImmutableObjects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.NamedThreadLocal;
-import org.springframework.http.HttpMethod;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -31,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 操作日志记录处理
@@ -84,7 +84,7 @@ public class LogAspect {
     protected void handleLog(final JoinPoint joinPoint, Log controllerLog, final Exception e, Object jsonResult) {
         try {
             // 获取当前的用户
-            LoginUser loginUser = SecurityUtils.getLoginUser();
+            LoginUser loginUser = (LoginUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
             // *========数据库日志=========*//
             SysOperLog sysOperLog = SysOperLogDraft.$.produce(operLog -> {
@@ -101,8 +101,8 @@ public class LogAspect {
                     SysUser currentUser = loginUser.getUser();
                     ImmutableObjects.isLoaded(currentUser, SysUserProps.DEPT);
                     if (ImmutableObjects.isLoaded(currentUser, SysUserProps.DEPT) &&
-                            StringUtils.isNotNull(currentUser) &&
-                            StringUtils.isNotNull(currentUser.dept())) {
+                            Objects.nonNull(currentUser) &&
+                            Objects.nonNull(currentUser.dept())) {
                         if (ImmutableObjects.isLoaded(currentUser.dept(), SysDeptProps.DEPT_NAME)) {
                             operLog.setDeptName(currentUser.dept().deptName());
                         }
@@ -156,7 +156,7 @@ public class LogAspect {
             setRequestValue(joinPoint, operLog, log.excludeParamNames());
         }
         // 是否需要保存response，参数和值
-        if (log.isSaveResponseData() && StringUtils.isNotNull(jsonResult)) {
+        if (log.isSaveResponseData() && Objects.nonNull(jsonResult)) {
             operLog.setJsonResult(StringUtils.substring(JSON.toJSON(jsonResult), 0, 2000));
         }
     }
@@ -171,13 +171,7 @@ public class LogAspect {
         Map<?, ?> paramsMap = ServletUtils.getParamMap(ServletUtils.getRequest());
         String requestMethod = ServletUtils.getRequest().getMethod();
         operLog.setRequestMethod(requestMethod);
-        if (StringUtils.isEmpty(paramsMap)
-                && (HttpMethod.PUT.name().equals(requestMethod) || HttpMethod.POST.name().equals(requestMethod))) {
-            String params = argsArrayToString(joinPoint.getArgs(), excludeParamNames);
-            operLog.setOperParam(StringUtils.substring(params, 0, 2000));
-        } else {
-            operLog.setOperParam(StringUtils.substring(JSON.toJSON(paramsMap, ArrayUtils.addAll(EXCLUDE_PROPERTIES, excludeParamNames)), 0, 2000));
-        }
+        operLog.setOperParam(StringUtils.substring(JSON.toJSON(paramsMap, ArrayUtils.addAll(EXCLUDE_PROPERTIES, excludeParamNames)), 0, 2000));
     }
 
     /**
@@ -187,7 +181,7 @@ public class LogAspect {
         String params = "";
         if (paramsArray != null && paramsArray.length > 0) {
             for (Object o : paramsArray) {
-                if (StringUtils.isNotNull(o) && !isFilterObject(o)) {
+                if (Objects.nonNull(o) && !isFilterObject(o)) {
                     try {
                         String jsonObj = JSON.toJSON(o, ArrayUtils.addAll(EXCLUDE_PROPERTIES, excludeParamNames));
                         params += jsonObj.toString() + " ";

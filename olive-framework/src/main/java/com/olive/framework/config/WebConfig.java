@@ -1,8 +1,7 @@
 package com.olive.framework.config;
 
-import com.olive.framework.constant.Constants;
 import com.olive.framework.interceptor.RepeatSubmitInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.olive.model.constant.AppConstant;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.CacheControl;
@@ -13,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -22,13 +22,16 @@ import java.util.concurrent.TimeUnit;
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-    @Autowired
-    private RepeatSubmitInterceptor repeatSubmitInterceptor;
+    private final RepeatSubmitInterceptor repeatSubmitInterceptor;
+
+    public WebConfig(RepeatSubmitInterceptor repeatSubmitInterceptor) {
+        this.repeatSubmitInterceptor = repeatSubmitInterceptor;
+    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         /** 本地文件上传路径 */
-        registry.addResourceHandler(Constants.RESOURCE_PREFIX + "/**")
+        registry.addResourceHandler(AppConstant.RESOURCE_PREFIX + "/**")
                 .addResourceLocations("file:" + AppConfig.getProfile() + "/");
 
         /** swagger配置 */
@@ -57,7 +60,7 @@ public class WebConfig implements WebMvcConfigurer {
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
         // 默认语言
-        slr.setDefaultLocale(Constants.DEFAULT_LOCALE);
+        slr.setDefaultLocale(Locale.SIMPLIFIED_CHINESE);
         return slr;
     }
 

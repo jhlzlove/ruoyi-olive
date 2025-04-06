@@ -1,18 +1,17 @@
 package com.olive.framework.filter;
 
-import com.olive.framework.util.SecurityUtils;
-import com.olive.framework.web.system.DataScopeProps;
-import com.olive.framework.web.system.SysRole;
-import com.olive.framework.web.system.SysUser;
-import com.olive.framework.web.system.service.SysDeptService;
+import com.olive.model.DataScopeProps;
+import com.olive.model.LoginUser;
+import com.olive.model.SysRole;
+import com.olive.model.SysUser;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.babyfish.jimmer.sql.JSqlClient;
+import org.babyfish.jimmer.sql.ast.Predicate;
 import org.babyfish.jimmer.sql.filter.Filter;
 import org.babyfish.jimmer.sql.filter.FilterArgs;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -23,13 +22,11 @@ import java.util.List;
 @AllArgsConstructor
 public class DataScopeFilter implements Filter<DataScopeProps> {
 
-    private final SysDeptService deptService;
-    private final JSqlClient sqlClient;
-
     @Override
     public void filter(FilterArgs<DataScopeProps> args) {
         DataScopeProps table = args.getTable();
-        SysUser user = SecurityUtils.getLoginUser().getUser();
+        // 获取当前登录用户
+        SysUser user = ((LoginUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
         List<SysRole> roles = user.roles();
         if (CollectionUtils.isEmpty(roles)) return;
         for (SysRole role : roles) {
@@ -51,9 +48,9 @@ public class DataScopeFilter implements Filter<DataScopeProps> {
                     args.where(table.dept().deptId().eq(user.deptId()));
                 }
                 case "4" -> {
-                    // 查询用户部门和子部门
-                    Collection<Long> deptIds = deptService.selectChildrenDeptByParentId(user.deptId());
-                    args.where(table.dept().deptId().inIf(deptIds));
+                    args.where(Predicate.sql("find_in_set(%v, %e)", it ->
+                            it.expression(table.dept().deptId()).value(user.deptId())
+                    ));
                 }
                 case "5" -> {
                     args.where(table.userId().eq(user.userId()));

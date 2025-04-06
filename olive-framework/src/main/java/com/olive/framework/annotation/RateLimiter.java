@@ -1,25 +1,24 @@
 package com.olive.framework.annotation;
 
-import com.olive.framework.constant.CacheConstants;
-import com.olive.framework.enums.LimitType;
+import com.olive.model.constant.CacheConstant;
+import com.olive.model.constant.LimitType;
 
 import java.lang.annotation.*;
 
 
 /**
  * 限流注解
- * 
+ *
  * @author ruoyi
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface RateLimiter
-{
+public @interface RateLimiter {
     /**
      * 限流key
      */
-    public String key() default CacheConstants.RATE_LIMIT_KEY;
+    public String key() default CacheConstant.RATE_LIMIT_KEY;
 
     /**
      * 限流时间,单位秒

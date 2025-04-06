@@ -20,11 +20,14 @@ const config = {
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/ruoyi-olive/',
 
+
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   // 如果不使用 GitHub pages，可以删除这些配置
   organizationName: 'jhlzlove', // Usually your GitHub org/user name.
   projectName: 'ruoyi-olive', // Usually your repo name.
+  trailingSlash: false,
+
   // 部署分支
   deploymentBranch: 'pages',
 
@@ -45,6 +48,9 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          routeBasePath: '/',
+          // 指定文档路径
+          path: './docs',
           lastVersion: 'current',
           versions: {
             current: {

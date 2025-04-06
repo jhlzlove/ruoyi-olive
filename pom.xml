@@ -12,7 +12,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.0</version>
+        <version>3.4.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -20,97 +20,33 @@
     <description>改造框架，不再兼容原框架</description>
 
     <modules>
-        <module>olive-common</module>
+        <module>olive-base</module>
         <module>olive-framework</module>
-        <module>olive-system</module>
+        <module>olive-service</module>
         <module>olive-api</module>
-        <module>olive-extension</module>
+        <module>olive-model</module>
     </modules>
 
     <properties>
         <revision>0.0.1</revision>
-        <java.version>17</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jimmer.version>0.9.46</jimmer.version>
-        <lombok.version>1.18.34</lombok.version>
 
-        <commons.io>2.18.0</commons.io>
-        <commons.collections4>4.4</commons.collections4>
-        <oshi.version>6.6.3</oshi.version>
-        <jwt.version>4.4.0</jwt.version>
-        <httpclient.version>5.4.1</httpclient.version>
-        <useragent.version>1.21</useragent.version>
-        <feign.version>4.2.0</feign.version>
+        <jimmer.version>0.9.71</jimmer.version>
+        <lombok.version>1.18.36</lombok.version>
         <kaptcha.version>2.3.3</kaptcha.version>
-        <jackson.version>2.18.0</jackson.version>
-        <poi.version>5.3.0</poi.version>
         <mysql.version>8.0.33</mysql.version>
         <minio.version>8.5.14</minio.version>
+        <es.version>7.17.27</es.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <!-- 系统信息 -->
             <dependency>
-                <groupId>com.github.oshi</groupId>
-                <artifactId>oshi-core</artifactId>
-                <version>${oshi.version}</version>
-            </dependency>
-
-            <!-- 解析客户端操作系统、浏览器等 -->
-            <dependency>
-                <groupId>eu.bitwalker</groupId>
-                <artifactId>UserAgentUtils</artifactId>
-                <version>${useragent.version}</version>
-            </dependency>
-
-            <!-- apache collections -->
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-collections4</artifactId>
-                <version>${commons.collections4}</version>
-            </dependency>
-
-            <!-- apache io -->
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons.io}</version>
-            </dependency>
-
-            <!-- jackson -->
-            <dependency>
-                <groupId>com.fasterxml.jackson.datatype</groupId>
-                <artifactId>jackson-datatype-jsr310</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-
-            <!-- excel工具 -->
-            <dependency>
-                <groupId>org.apache.poi</groupId>
-                <artifactId>poi-ooxml</artifactId>
-                <version>${poi.version}</version>
-            </dependency>
-
-            <!-- jwt -->
-            <dependency>
-                <groupId>com.auth0</groupId>
-                <artifactId>java-jwt</artifactId>
-                <version>${jwt.version}</version>
-            </dependency>
-
-            <!-- http -->
-            <dependency>
-                <groupId>org.apache.httpcomponents.client5</groupId>
-                <artifactId>httpclient5</artifactId>
-                <version>${httpclient.version}</version>
-            </dependency>
-
-            <!-- feign 客户端 -->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-openfeign</artifactId>
-                <version>${feign.version}</version>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                <version>${es.version}</version>
             </dependency>
 
             <!-- jimmer -->
@@ -149,10 +85,10 @@
                 <version>${minio.version}</version>
             </dependency>
 
-            <!-- 常规模块-->
+            <!-- 基础模块-->
             <dependency>
                 <groupId>com.olive</groupId>
-                <artifactId>olive-common</artifactId>
+                <artifactId>olive-base</artifactId>
                 <version>${revision}</version>
             </dependency>
 
@@ -163,18 +99,18 @@
                 <version>${revision}</version>
             </dependency>
 
-            <!-- 系统模块-->
+            <!-- service-->
             <dependency>
                 <groupId>com.olive</groupId>
-                <artifactId>olive-system</artifactId>
+                <artifactId>olive-service</artifactId>
                 <version>${revision}</version>
             </dependency>
 
-            <!-- 扩展模块 -->
+            <!-- 实体模块 -->
             <dependency>
                 <groupId>com.olive</groupId>
-                <artifactId>olive-extension-starter</artifactId>
-                <version>${revision}</version>
+                <artifactId>olive-model</artifactId>
+                <version>0.0.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -199,32 +135,29 @@
     </profiles>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <annotationProcessorPaths>
-                            <!-- 如果使用了 lombok，需要确保在 jimmer apt 之前添加该内容 -->
-                            <path>
-                                <groupId>org.projectlombok</groupId>
-                                <artifactId>lombok</artifactId>
-                                <version>${lombok.version}</version>
-                            </path>
-
-                            <path>
-                                <groupId>org.babyfish.jimmer</groupId>
-                                <artifactId>jimmer-apt</artifactId>
-                                <version>${jimmer.version}</version>
-                            </path>
-                        </annotationProcessorPaths>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
         <plugins>
+            <!-- 编译插件配置 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <!-- 如果使用了 lombok，需要确保在 jimmer apt 之前添加该内容 -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+
+                        <path>
+                            <groupId>org.babyfish.jimmer</groupId>
+                            <artifactId>jimmer-apt</artifactId>
+                            <version>${jimmer.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
             <!-- 依赖分离插件 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -278,28 +211,13 @@
     <!-- 依赖仓库 -->
     <repositories>
         <repository>
-            <id>public</id>
-            <name>aliyun nexus</name>
-            <url>https://maven.aliyun.com/repository/public</url>
+            <id>huaweicloud</id>
+            <name>huaweicloud</name>
+            <url>https://repo.huaweicloud.com/repository/maven/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
         </repository>
     </repositories>
-
-    <!-- 插件仓库 -->
-    <pluginRepositories>
-        <pluginRepository>
-            <id>public</id>
-            <name>aliyun nexus</name>
-            <url>https://maven.aliyun.com/repository/public</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
 
 </project>

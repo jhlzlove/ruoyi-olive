@@ -1,0 +1,7 @@
+export com.olive.model.SysLoginLog
+
+specification SysLoginLogSearch {
+    like(loginLocation)
+    like(userName)
+    eq(status)
+}

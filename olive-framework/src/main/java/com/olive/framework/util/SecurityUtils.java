@@ -1,10 +1,9 @@
 package com.olive.framework.util;
 
-import com.olive.framework.constant.Constants;
-import com.olive.framework.web.system.SysRole;
-import com.olive.framework.web.system.LoginUser;
-import com.olive.framework.exception.ServiceException;
-import org.springframework.http.HttpStatus;
+import com.olive.model.LoginUser;
+import com.olive.model.SysRole;
+import com.olive.model.constant.AppConstant;
+import com.olive.model.exception.SecurityException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -29,7 +28,7 @@ public class SecurityUtils {
         try {
             return getLoginUser().getUserId();
         } catch (Exception e) {
-            throw new ServiceException("获取用户ID异常", HttpStatus.UNAUTHORIZED.value());
+            throw SecurityException.getUserIdException("获取用户ID异常");
         }
     }
 
@@ -40,7 +39,7 @@ public class SecurityUtils {
         try {
             return getLoginUser().getDeptId();
         } catch (Exception e) {
-            throw new ServiceException("获取部门ID异常", HttpStatus.UNAUTHORIZED.value());
+            throw SecurityException.getDeptIdException("获取部门ID异常");
         }
     }
 
@@ -51,7 +50,7 @@ public class SecurityUtils {
         try {
             return getLoginUser().getUsername();
         } catch (Exception e) {
-            throw new ServiceException("获取用户账户异常", HttpStatus.UNAUTHORIZED.value());
+            throw SecurityException.getUserNameException("获取用户账户异常");
         }
     }
 
@@ -62,7 +61,7 @@ public class SecurityUtils {
         try {
             return (LoginUser) getAuthentication().getPrincipal();
         } catch (Exception e) {
-            throw new ServiceException("获取用户信息异常", HttpStatus.UNAUTHORIZED.value());
+            throw SecurityException.getUserPrincipalException("获取用户信息异常");
         }
     }
 
@@ -124,7 +123,7 @@ public class SecurityUtils {
      */
     public static boolean hasPermi(Collection<String> authorities, String permission) {
         return authorities.stream().filter(StringUtils::hasText)
-                .anyMatch(x -> Constants.ALL_PERMISSION.equals(x) || PatternMatchUtils.simpleMatch(x, permission));
+                .anyMatch(x -> AppConstant.ALL_PERMISSION.equals(x) || PatternMatchUtils.simpleMatch(x, permission));
     }
 
     /**
@@ -134,7 +133,7 @@ public class SecurityUtils {
      * @return 用户是否具备某角色
      */
     public static boolean hasRole(String role) {
-        List<com.olive.framework.web.system.SysRole> roleList = getLoginUser().getUser().roles();
+        List<SysRole> roleList = getLoginUser().getUser().roles();
         Collection<String> roles = roleList.stream().map(SysRole::roleKey).collect(Collectors.toSet());
         return hasRole(roles, role);
     }
@@ -148,7 +147,7 @@ public class SecurityUtils {
      */
     public static boolean hasRole(Collection<String> roles, String role) {
         return roles.stream().filter(StringUtils::hasText)
-                .anyMatch(x -> Constants.SUPER_ADMIN.equals(x) || PatternMatchUtils.simpleMatch(x, role));
+                .anyMatch(x -> AppConstant.SUPER_ADMIN.equals(x) || PatternMatchUtils.simpleMatch(x, role));
     }
 
 }

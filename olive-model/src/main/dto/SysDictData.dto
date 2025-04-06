@@ -1,0 +1,7 @@
+export com.olive.model.SysDictData
+
+specification SysDictDataSearch {
+    eq(dictType)
+    like(dictLabel)
+    eq(status)
+}

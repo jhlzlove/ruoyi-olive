@@ -1,7 +1,8 @@
 package com.olive.framework.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AllArgsConstructor;
+import com.olive.model.constant.CacheConstant;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,30 +17,64 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * redis配置
+ * 统一缓存配置，包括过期的时间
  * 
  * @author ruoyi
  */
 @Configuration
-@AllArgsConstructor
 public class CacheConfig {
     private final ObjectMapper objectMapper;
+
+    @Value(value = "${user.password.maxRetryCount}")
+    private int maxRetryCount;
+
+    @Value(value = "${user.password.lockTime}")
+    private int lockTime;
+
+    @Value(value = "${user.ip.maxRetryCount:15}")
+    public int maxIpRetryCount;
+
+    @Value(value = "${user.ip.lockTime:15}")
+    public int ipLockTime;
+
+    // 令牌有效期（默认30分钟）
+    @Value("${token.expireTime}")
+    private int expireTime;
+
+    public CacheConfig(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     @Bean
     @Primary
     public CacheManager redisCacheManager(RedisConnectionFactory connectionFactory) {
-        // GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer(objectMapper());
         Jackson2JsonRedisSerializer serializer = new Jackson2JsonRedisSerializer(objectMapper, Object.class);
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-                // 过期时间
-                .entryTtl(Duration.ofSeconds(3600 * 24 * 15L))
+                // 默认过期时间为 1 天
+                .entryTtl(Duration.ofDays(1))
                 .computePrefixWith(name -> name + ":")
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer));
+
+        // 不同缓存的过期时间配置
+        Map<String, RedisCacheConfiguration> redisCacheMap = new HashMap<>();
+        // 配置缓存一小时
+        redisCacheMap.put(CacheConstant.CACHE_CONFIG_KEY, config.entryTtl(Duration.ofHours(1)));
+        // ip 错误重试次数，可配置，默认 15 分钟
+        redisCacheMap.put(CacheConstant.IP_ERR_CNT_KEY, config.entryTtl(Duration.ofMinutes(ipLockTime)));
+        // 密码错误重试，可配置
+        redisCacheMap.put(CacheConstant.PWD_ERR_CNT_KEY, config.entryTtl(Duration.ofMinutes(lockTime)));
+        // token 过期时间，可配置
+        redisCacheMap.put(CacheConstant.CACHE_LOGIN_TOKEN_KEY, config.entryTtl(Duration.ofMinutes(expireTime)));
+        // 验证码 2 分钟过期
+        redisCacheMap.put(CacheConstant.CAPTCHA_CODE_KEY, config.entryTtl(Duration.ofMinutes(2)));
         return RedisCacheManager
                 .builder(connectionFactory)
+                .withInitialCacheConfigurations(redisCacheMap)
                 .cacheDefaults(config).transactionAware()
                 .build();
     }
@@ -49,7 +84,7 @@ public class CacheConfig {
         RedisTemplate<Object, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
         Jackson2JsonRedisSerializer serializer = new Jackson2JsonRedisSerializer(objectMapper, Object.class);
-
+        // 设置序列化、反序列化
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(serializer);
         template.setHashKeySerializer(new StringRedisSerializer());

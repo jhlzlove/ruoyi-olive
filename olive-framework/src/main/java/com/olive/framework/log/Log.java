@@ -1,7 +1,7 @@
 package com.olive.framework.log;
 
-import com.olive.framework.enums.BusinessType;
-import com.olive.framework.enums.OperatorType;
+import com.olive.model.constant.BusinessType;
+import com.olive.model.constant.OperatorType;
 
 import java.lang.annotation.*;
 

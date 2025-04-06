@@ -1,0 +1,14 @@
+export com.olive.model.SysDept
+
+specification SysDeptSearch {
+    like(deptName)
+    eq(status)
+}
+
+FlatDeptView {
+    #allScalars
+    flat(parent) {
+        deptId as parentId
+        deptName as parentName
+    }
+}

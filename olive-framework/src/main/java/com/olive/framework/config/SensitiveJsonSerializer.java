@@ -7,9 +7,9 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.ContextualSerializer;
 import com.olive.framework.annotation.Sensitive;
-import com.olive.framework.web.system.LoginUser;
-import com.olive.framework.enums.DesensitizedType;
-import com.olive.framework.util.SecurityUtils;
+import com.olive.model.LoginUser;
+import com.olive.model.constant.DesensitizedType;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -47,7 +47,7 @@ public class SensitiveJsonSerializer extends JsonSerializer<String> implements C
      */
     private boolean desensitization() {
         try {
-            LoginUser securityUser = SecurityUtils.getLoginUser();
+            LoginUser securityUser = (LoginUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             // 管理员不脱敏
             return !(securityUser.getUser().userId() == 1L);
         } catch (Exception e) {

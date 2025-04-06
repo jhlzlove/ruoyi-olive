@@ -1,27 +1,14 @@
 # 生产环境配置
 server:
   port: 8888
-  servlet:
-    # 应用的访问路径
-    context-path: /
-  tomcat:
-    # tomcat的URI编码
-    uri-encoding: UTF-8
-    # 连接数满后的排队数，默认为100
-    accept-count: 1000
-    threads:
-      # tomcat最大线程数，默认为200
-      max: 800
-      # Tomcat启动初始化的线程数，默认值10
-      min-spare: 100
 
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/tuyuan?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&useSSL=true&serverTimezone=GMT%2B8
+    url: jdbc:mysql://localhost:3306/ruoyi_olive?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&useSSL=true&serverTimezone=GMT%2B8
     username: root
-    password: 123456
+    password: root
   data:
     redis:
       host: localhost
@@ -48,18 +35,12 @@ jimmer:
   # 伪外键
   is-foreign-key-enabled-by-default: false
 
-minio:
-  enable: false
-  downLoadLimit: 1024
-  primary: MASTER
-  client:
-    MASTER:
-      url: http://192.168.3.13:9000
-      accessKey:
-      secretKey:
-      buketName: plaform
-    SLAVE:
-      url: http://192.168.3.13:9000
-      accessKey:
-      secretKey:
-      buketName: plaform
+storage:
+  type: minio
+  local:
+    base-path: data/file
+  minio:
+    url: http://localhost:9000
+    access-key: admin
+    secret-key: 123456
+    default-bucket: file

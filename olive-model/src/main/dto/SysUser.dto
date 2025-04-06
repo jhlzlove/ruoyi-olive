@@ -1,0 +1,9 @@
+export com.olive.model.SysUser
+
+import jdk.jfr.Enabled
+
+specification SysUserSearch {
+    like(userName)
+    like(phonenumber)
+    eq(status)
+}

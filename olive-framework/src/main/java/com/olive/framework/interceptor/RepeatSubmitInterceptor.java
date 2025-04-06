@@ -1,8 +1,8 @@
 package com.olive.framework.interceptor;
 
-import com.olive.common.response.R;
+import com.olive.base.response.R;
 import com.olive.framework.annotation.RepeatSubmit;
-import com.olive.framework.util.JSON;
+import com.olive.service.util.JSON;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;

@@ -9,7 +9,6 @@
     "forceConsistentCasingInFileNames": true,
     "downlevelIteration":true,
     "outDir": "dist/compiled",
-    "baseUrl": "./",
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
     "jsx": "preserve",
@@ -18,11 +17,11 @@
     "lib": ["ES2020", "dom"],
     "types": ["vite/client"],
     "declaration": true,
+    "baseUrl": "./",
     "paths": {
-      "@": ["src"],
       "@/*": ["src/*"],
       "/@/*": ["src/*"],
-      "vue": ["node_modules/vue"],
+//      "vue": ["node_modules/vue"],
       "tslib" : ["node_modules/tslib/tslib.d.ts"]
     }
   }

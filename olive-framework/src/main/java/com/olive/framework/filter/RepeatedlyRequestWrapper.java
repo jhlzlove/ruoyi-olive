@@ -1,6 +1,5 @@
 package com.olive.framework.filter;
 
-import com.olive.framework.constant.Constants;
 import jakarta.servlet.ReadListener;
 import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.ServletRequest;
@@ -25,10 +24,10 @@ public class RepeatedlyRequestWrapper extends HttpServletRequestWrapper {
 
     public RepeatedlyRequestWrapper(HttpServletRequest request, ServletResponse response) throws IOException {
         super(request);
-        request.setCharacterEncoding(Constants.UTF8);
-        response.setCharacterEncoding(Constants.UTF8);
+        request.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 
-        body = getBodyString(request).getBytes(Constants.UTF8);
+        body = getBodyString(request).getBytes(StandardCharsets.UTF_8);
     }
 
     @Override

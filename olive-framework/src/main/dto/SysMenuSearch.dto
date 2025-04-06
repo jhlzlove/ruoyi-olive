@@ -1,6 +1,0 @@
-export com.olive.framework.web.system.SysMenu
-
-specification SysMenuSearch {
-    like(menuName)
-    eq(status)
-}

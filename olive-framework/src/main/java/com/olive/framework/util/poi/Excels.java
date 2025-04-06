@@ -1,6 +1,5 @@
 package com.olive.framework.util.poi;
 
-import com.olive.framework.exception.CustomException;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
@@ -63,13 +62,13 @@ public class Excels {
         logger.info("开始生成Excel文件，sheet数量为[{}]", sheetMap.size());
         StopWatch stopWatch = StopWatch.createStarted();
         if (Objects.isNull(sheetMap) || Objects.isNull(dataMap) || Objects.isNull(titleMap)) {
-            throw new CustomException("数据为空, 不能导出");
+            throw new java.lang.RuntimeException("数据为空, 不能导出");
         }
         if (sheetMap.size() < 1) {
-            throw new CustomException("数据为空, 不能导出");
+            throw new java.lang.RuntimeException("数据为空, 不能导出");
         }
         if (sheetMap.size() != dataMap.size() || sheetMap.size() != titleMap.size()) {
-            throw new CustomException("数据为空, 不能导出");
+            throw new java.lang.RuntimeException("数据为空, 不能导出");
         }
         Integer totalColumns = dataMap.values().stream().map(x -> x.size()).reduce((x, y) -> x + y).get();
         Workbook workbook = totalColumns > ROWS_CHANGE ? new SXSSFWorkbook() : new XSSFWorkbook();
@@ -154,7 +153,7 @@ public class Excels {
             name = new String(fileName.getBytes(Charset.forName("UTF-8")), "ISO8859-1");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-            throw new CustomException(e.getMessage());
+            throw new java.lang.RuntimeException(e.getMessage());
         }
         name += SUFFIX;
         response.addHeader("Content-Disposition", "attachment;filename=" + name);
@@ -164,7 +163,7 @@ public class Excels {
             outputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
-            throw new CustomException(e.getMessage());
+            throw new java.lang.RuntimeException(e.getMessage());
         }
     }
 
@@ -186,7 +185,7 @@ public class Excels {
             name = new String(ExcelKey.getCn(type).getBytes(Charset.forName("UTF-8")), "ISO8859-1");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-            throw new CustomException(e.getMessage());
+            throw new java.lang.RuntimeException(e.getMessage());
         }
         name += SUFFIX;
         response.addHeader("Content-Disposition", "attachment;filename=" + name);
@@ -196,7 +195,7 @@ public class Excels {
             outputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
-            throw new CustomException(e.getMessage());
+            throw new java.lang.RuntimeException(e.getMessage());
         }
     }
 
@@ -219,7 +218,7 @@ public class Excels {
             file.delete();
         } catch (IOException e) {
             e.printStackTrace();
-            throw new CustomException(e.getMessage());
+            throw new java.lang.RuntimeException(e.getMessage());
         }
     }
 
@@ -228,7 +227,7 @@ public class Excels {
         StopWatch stopWatch = StopWatch.createStarted();
 
         if (org.springframework.util.CollectionUtils.isEmpty(result)) {
-            throw new CustomException("数据为空, 不能导出");
+            throw new java.lang.RuntimeException("数据为空, 不能导出");
         }
         Integer totalColumns = result.size();
         Workbook workbook = totalColumns > ROWS_CHANGE ? new SXSSFWorkbook() : new XSSFWorkbook();

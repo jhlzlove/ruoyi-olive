@@ -2,7 +2,7 @@ package com.olive.framework.annotation;
 
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.olive.framework.enums.DesensitizedType;
+import com.olive.model.constant.DesensitizedType;
 import com.olive.framework.config.SensitiveJsonSerializer;
 
 import java.lang.annotation.ElementType;
@@ -19,7 +19,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @JacksonAnnotationsInside
 @JsonSerialize(using = SensitiveJsonSerializer.class)
-public @interface Sensitive
-{
+public @interface Sensitive {
     DesensitizedType desensitizedType();
 }

@@ -1,10 +1,12 @@
 package com.olive.framework.filter;
 
-import com.olive.framework.util.StringUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpMethod;
+import org.springframework.util.AntPathMatcher;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,7 +54,14 @@ public class XssFilter implements Filter {
         if (method == null || HttpMethod.GET.matches(method) || HttpMethod.DELETE.matches(method)) {
             return true;
         }
-        return StringUtils.matches(url, excludes);
+        if (StringUtils.isEmpty(url) || CollectionUtils.isEmpty(excludes)) {
+            return false;
+        }
+        for (String pattern : excludes) {
+            AntPathMatcher matcher = new AntPathMatcher();
+            return matcher.match(pattern, url);
+        }
+        return false;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.olive.framework.config;
 
-import com.olive.common.utils.Threads;
+import com.olive.base.utils.Threads;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

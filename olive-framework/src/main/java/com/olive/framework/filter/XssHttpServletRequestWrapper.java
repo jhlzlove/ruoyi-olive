@@ -1,12 +1,12 @@
 package com.olive.framework.filter;
 
-import com.olive.framework.util.StringUtils;
-import com.olive.common.utils.html.EscapeUtil;
+import com.olive.base.utils.html.EscapeUtil;
 import jakarta.servlet.ReadListener;
 import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
