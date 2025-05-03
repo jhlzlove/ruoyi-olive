@@ -20,17 +20,16 @@ jobs:
           node-version: 22
 
       - name: Navigate to docs directory
-        run: cd docs
-
-      - name: Install dependencies
-        run: yarn install
-      - name: Build website
-        run: yarn build
+        working-directory: docs
+        run: |
+          yarn install
+          yarn build
+          ls -al
 
       - name: Upload Build Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: build
+          path: docs/build
 
   deploy:
     name: Deploy to GitHub Pages
