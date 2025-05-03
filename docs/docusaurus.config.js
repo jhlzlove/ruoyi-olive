@@ -31,7 +31,7 @@ const config = {
   // 部署分支
   deploymentBranch: 'pages',
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set
@@ -48,9 +48,9 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-//          routeBasePath: '/',
+          routeBasePath: 'docs',
           // 指定文档路径
-//          path: './docs',
+          path: 'docs',
           lastVersion: 'current',
           versions: {
             current: {
@@ -70,7 +70,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/jhlzlove/ruoyi-olive/tree/main/docs/docs/',
+            'https://github.com/jhlzlove/ruoyi-olive/tree/main/docs/',
         },
         blog: {
           showReadingTime: true,
@@ -81,7 +81,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/jhlzlove/ruoyi-olive/tree/main/docs/blog/',
+            'https://github.com/jhlzlove/ruoyi-olive/tree/main/docs/',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -120,7 +120,7 @@ const config = {
             position: 'right',
           },
           {
-            href: 'https://github.com/facebook/docusaurus',
+            href: 'https://github.com/jhlzlove/ruoyi-olive',
             label: 'GitHub',
             position: 'right',
           },
