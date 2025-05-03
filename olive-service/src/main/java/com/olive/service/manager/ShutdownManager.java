@@ -17,7 +17,6 @@ public class ShutdownManager {
     @PreDestroy
     public void destroy() {
         shutdownAsyncManager();
-        // HttpUtils.shutdown();
     }
 
     /**

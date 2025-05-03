@@ -19,6 +19,9 @@ jobs:
         with:
           node-version: 22
 
+      - name: Navigate to docs directory
+        run: cd docs
+
       - name: Install dependencies
         run: yarn install
       - name: Build website

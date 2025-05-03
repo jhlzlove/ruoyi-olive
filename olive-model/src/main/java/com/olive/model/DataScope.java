@@ -13,9 +13,9 @@ public interface DataScope {
 
     @ManyToOne
     @Nullable
-    SysUser user();
+    SysUser sysUser();
 
     @ManyToOne
     @Nullable
-    SysDept dept();
+    SysDept sysDept();
 }

@@ -1,6 +1,6 @@
 package com.olive.api.system;
 
-import com.olive.framework.log.Log;
+import com.olive.service.aop.log.Log;
 import com.olive.model.SysPost;
 import com.olive.model.constant.BusinessType;
 import com.olive.model.record.PageQuery;

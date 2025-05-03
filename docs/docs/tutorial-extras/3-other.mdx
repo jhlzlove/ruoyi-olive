@@ -1,0 +1,5 @@
+# 备忘录
+
+## 缓存
+
+缓存（目前只有 Redis）使用 CacheManger，使用时直接注入，缓存的时间按照名称统一配置，个别情况使用 RestTemplate 操作(CacheManger 不包含所有的 redis 的操作 api)。不再封装各种 cache util。

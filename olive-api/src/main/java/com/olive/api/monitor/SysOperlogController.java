@@ -1,6 +1,6 @@
 package com.olive.api.monitor;
 
-import com.olive.framework.log.Log;
+import com.olive.service.aop.log.Log;
 import com.olive.model.SysOperLog;
 import com.olive.model.constant.BusinessType;
 import com.olive.model.dto.SysOperLogSearch;

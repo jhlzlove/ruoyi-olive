@@ -1,6 +1,7 @@
 package com.olive.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.babyfish.jimmer.sql.*;
 import org.jetbrains.annotations.Nullable;
 
@@ -69,7 +70,7 @@ public interface SysMenu extends BaseEntity {
      */
     @Nullable
     @Column(name = "is_frame")
-    @JsonAlias("isFrame")
+    @JsonProperty("isFrame")
     String frameFlag();
 
     /**
@@ -77,7 +78,7 @@ public interface SysMenu extends BaseEntity {
      */
     @Nullable
     @Column(name = "is_cache")
-    @JsonAlias("isCache")
+    @JsonProperty("isCache")
     String cacheFlag();
 
     /**

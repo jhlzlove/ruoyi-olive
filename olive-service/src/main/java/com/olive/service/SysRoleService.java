@@ -5,7 +5,7 @@ import com.olive.model.dto.SysRoleSearch;
 import com.olive.model.exception.SecurityException;
 import com.olive.model.exception.SysRoleException;
 import com.olive.model.record.PageQuery;
-import com.olive.service.util.SecurityUtils;
+import com.olive.service.security.SecurityUtils;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.babyfish.jimmer.ImmutableObjects;
@@ -68,7 +68,7 @@ public class SysRoleService {
 
     public void checkRoleDataScope(long roleId) {
         Long userId = SecurityUtils.getUserId();
-        if (!(userId != null && 1L == userId)) {
+        if (userId != null && 1L != userId) {
             List<SysRole> roles = sqlClient.createQuery(table)
                     .where(table.roleId().eq(roleId))
                     .where(table.delFlag().eq("0"))

@@ -149,6 +149,10 @@ public class DictTypeService {
     }
 
     public List<SysDictData> listByDictType(String dictType) {
-            return null;
+        SysDictDataTable dataTable = SysDictDataTable.$;
+        return sqlClient.createQuery(dataTable)
+                .where(dataTable.dictType().eq(dictType))
+                .select(dataTable.fetch(SysDictDataFetcher.$.allScalarFields()))
+                .execute();
     }
 }

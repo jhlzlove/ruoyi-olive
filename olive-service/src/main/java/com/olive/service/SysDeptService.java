@@ -5,7 +5,7 @@ import com.olive.model.constant.AppConstant;
 import com.olive.model.dto.FlatDeptView;
 import com.olive.model.dto.SysDeptSearch;
 import com.olive.model.exception.SysDeptException;
-import com.olive.service.util.SecurityUtils;
+import com.olive.service.security.SecurityUtils;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.babyfish.jimmer.sql.JSqlClient;

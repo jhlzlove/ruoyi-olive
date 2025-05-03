@@ -6,7 +6,6 @@ logs
 !gradle/wrapper/gradle-wrapper.jar
 dependency-tree.txt
 .bak
-.fleet
 .kotlin
 docs/.docusaurus
 */package-lock.json

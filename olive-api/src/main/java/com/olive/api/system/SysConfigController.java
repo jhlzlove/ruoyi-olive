@@ -1,8 +1,8 @@
 package com.olive.api.system;
 
 import com.olive.base.response.R;
-import com.olive.framework.annotation.Anonymous;
-import com.olive.framework.log.Log;
+import com.olive.service.annotation.Anonymous;
+import com.olive.service.aop.log.Log;
 import com.olive.model.SysConfig;
 import com.olive.model.constant.BusinessType;
 import com.olive.model.dto.SysConfigSearch;

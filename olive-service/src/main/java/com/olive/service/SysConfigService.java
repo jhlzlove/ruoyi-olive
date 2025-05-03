@@ -51,7 +51,7 @@ public class SysConfigService {
         return sqlClient.createQuery(table)
                 .where(search)
                 .where(table.createTime().geIf(page.beginTime()))
-                .where(table.createTime().leIf(page.endTime()))
+                .where(table.createTime().leIf(page.beginTime()))
                 .select(table)
                 .fetchPage(page.pageNum() - 1, page.pageSize());
     }

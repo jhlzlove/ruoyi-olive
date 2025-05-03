@@ -12,16 +12,15 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.3</version>
+        <version>3.4.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <name>ruoyi-olive</name>
-    <description>改造框架，不再兼容原框架</description>
+    <description>二次开发框架，不再兼容原框架</description>
 
     <modules>
         <module>olive-base</module>
-        <module>olive-framework</module>
         <module>olive-service</module>
         <module>olive-api</module>
         <module>olive-model</module>
@@ -29,16 +28,17 @@
 
     <properties>
         <revision>0.0.1</revision>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.source>24</maven.compiler.source>
+        <maven.compiler.target>24</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <jimmer.version>0.9.71</jimmer.version>
-        <lombok.version>1.18.36</lombok.version>
+        <jimmer.version>0.9.81</jimmer.version>
+        <lombok.version>1.18.38</lombok.version>
         <kaptcha.version>2.3.3</kaptcha.version>
         <mysql.version>8.0.33</mysql.version>
-        <minio.version>8.5.14</minio.version>
+        <minio.version>8.5.17</minio.version>
         <es.version>7.17.27</es.version>
+        <liquibase.version>4.31.1</liquibase.version>
     </properties>
 
     <dependencyManagement>
@@ -62,6 +62,13 @@
                 <artifactId>mysql-connector-j</artifactId>
                 <version>${mysql.version}</version>
                 <scope>runtime</scope>
+            </dependency>
+
+            <!-- liquibase -->
+            <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+                <version>${liquibase.version}</version>
             </dependency>
 
             <!-- 验证码 -->
@@ -89,13 +96,6 @@
             <dependency>
                 <groupId>com.olive</groupId>
                 <artifactId>olive-base</artifactId>
-                <version>${revision}</version>
-            </dependency>
-
-            <!-- 框架核心 -->
-            <dependency>
-                <groupId>com.olive</groupId>
-                <artifactId>olive-framework</artifactId>
                 <version>${revision}</version>
             </dependency>
 
@@ -147,6 +147,11 @@
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
+                        </path>
+
+                        <path>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-configuration-processor</artifactId>
                         </path>
 
                         <path>
@@ -211,9 +216,9 @@
     <!-- 依赖仓库 -->
     <repositories>
         <repository>
-            <id>huaweicloud</id>
-            <name>huaweicloud</name>
-            <url>https://repo.huaweicloud.com/repository/maven/</url>
+            <id>aliyunmaven</id>
+            <name>阿里云公共仓库</name>
+            <url>https://maven.aliyun.com/repository/public</url>
             <releases>
                 <enabled>true</enabled>
             </releases>

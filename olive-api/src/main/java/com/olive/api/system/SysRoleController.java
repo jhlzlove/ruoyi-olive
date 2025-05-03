@@ -1,6 +1,6 @@
 package com.olive.api.system;
 
-import com.olive.framework.log.Log;
+import com.olive.service.aop.log.Log;
 import com.olive.model.SysRole;
 import com.olive.model.SysUser;
 import com.olive.model.constant.BusinessType;
@@ -133,9 +133,6 @@ public class SysRoleController {
     @GetMapping("/authUser/allocatedList")
     public Page<SysUser> allocatedList(SysUserCondition user) {
         return sysUserService.selectAllocatedList(user);
-        // startPage();
-        // List<SysUser> list = userService.selectAllocatedList(user);
-        // return getDataTable(list);
     }
 
     /**
@@ -145,9 +142,6 @@ public class SysRoleController {
     @GetMapping("/authUser/unallocatedList")
     public Page<SysUser> unallocatedList(SysUserCondition user) {
         return sysUserService.selectUnallocatedList(user);
-        // startPage();
-        // List<SysUser> list = userService.selectUnallocatedList(user);
-        // return getDataTable(list);
     }
 
     /**

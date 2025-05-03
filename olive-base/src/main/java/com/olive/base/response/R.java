@@ -1,11 +1,9 @@
 package com.olive.base.response;
 
-import jakarta.annotation.Nullable;
 
 /**
  * 一般响应体(Spring 项目不推荐使用)
  *
- * @see org.springframework.http.ProblemDetail
  * @author jhlz
  * @version x.x.x
  */
@@ -13,13 +11,10 @@ public record R(
         /* 响应码 */
         int code,
         /* 简要信息 */
-        @Nullable
         String msg,
         /* 详细信息 */
-        @Nullable
         String detail,
         /* 数据 */
-        @Nullable
         Object data
 ) {
 

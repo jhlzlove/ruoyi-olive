@@ -1,8 +1,7 @@
 package com.olive.api.system;
 
 import com.olive.base.response.R;
-import com.olive.framework.log.Log;
-import com.olive.framework.util.SecurityUtils;
+import com.olive.service.aop.log.Log;
 import com.olive.model.*;
 import com.olive.model.constant.BusinessType;
 import com.olive.model.dto.SysUserSearch;
@@ -11,6 +10,7 @@ import com.olive.service.SysDeptService;
 import com.olive.service.SysPostService;
 import com.olive.service.SysRoleService;
 import com.olive.service.SysUserService;
+import com.olive.service.security.SecurityUtils;
 import lombok.AllArgsConstructor;
 import org.babyfish.jimmer.DraftObjects;
 import org.babyfish.jimmer.Page;
@@ -154,7 +154,7 @@ public class SysUserController {
     public Map<String, Object> authRole(@PathVariable("userId") long userId) {
         SysUser user = userService.info(userId);
         List<SysRole> roles = roleService.selectRolesByUserId(userId);
-        List<SysRole> roleList = userId == 1L ? roles : roles.stream().filter(r -> r.roleId() != 1).collect(Collectors.toList());
+        List<SysRole> roleList = userId == 1L ? roles : roles.stream().filter(r -> r.roleId() != 1).toList();
         return Map.of(
                 "user", user,
                 "roles", roleList

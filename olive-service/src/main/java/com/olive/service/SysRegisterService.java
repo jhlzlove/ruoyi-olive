@@ -9,7 +9,7 @@ import com.olive.model.record.RegisterBody;
 import com.olive.service.manager.AsyncManager;
 import com.olive.service.manager.factory.AsyncFactory;
 import com.olive.service.util.MessageUtils;
-import com.olive.service.util.SecurityUtils;
+import com.olive.service.security.SecurityUtils;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.Cache;

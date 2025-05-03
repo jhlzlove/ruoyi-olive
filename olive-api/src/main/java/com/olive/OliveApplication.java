@@ -1,19 +1,19 @@
 package com.olive;
 
 import com.olive.base.utils.IpUtil;
+import com.olive.service.storage.StorageProperties;
 import org.babyfish.jimmer.client.EnableImplicitApi;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.env.Environment;
 
-/**
- * 启动程序
- *
- * @author ruoyi
- */
+/// 启动程序
+///
+/// @author ruoyi
 @EnableImplicitApi
 // 表示通过aop框架暴露该代理对象,AopContext能够访问
 @EnableAspectJAutoProxy(exposeProxy = true)
@@ -23,7 +23,7 @@ public class OliveApplication {
 
     public static void main(String[] args) throws Exception {
         ApplicationContext application = SpringApplication.run(OliveApplication.class, args);
-
+        System.setProperty("spring.devtools.restart.enabled", "false");
         Environment env = application.getEnvironment();
         String ip = IpUtil.getLocalIp();
         String port = env.getProperty("server.port");

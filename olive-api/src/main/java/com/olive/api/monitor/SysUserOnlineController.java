@@ -1,6 +1,6 @@
 package com.olive.api.monitor;
 
-import com.olive.framework.log.Log;
+import com.olive.service.aop.log.Log;
 import com.olive.model.LoginUser;
 import com.olive.model.constant.CacheConstant;
 import com.olive.model.constant.BusinessType;

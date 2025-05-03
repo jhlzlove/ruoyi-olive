@@ -7,7 +7,7 @@ import com.olive.model.exception.SecurityException;
 import com.olive.service.manager.AsyncManager;
 import com.olive.service.manager.factory.AsyncFactory;
 import com.olive.service.util.MessageUtils;
-import com.olive.service.util.SecurityUtils;
+import com.olive.service.security.SecurityUtils;
 import com.olive.service.util.ip.IpUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache;

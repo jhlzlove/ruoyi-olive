@@ -6,5 +6,6 @@ public record SysUserCondition(
             Long deptId,
             String userName,
             String phonenumber,
+            Long roleId,
             List<Long> roleIds
     ){}

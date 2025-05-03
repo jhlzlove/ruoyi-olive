@@ -1,25 +1,27 @@
 package com.olive.api.common;
 
-import com.olive.framework.annotation.Anonymous;
-import com.olive.framework.config.AppConfig;
+import com.olive.service.annotation.Anonymous;
+import com.olive.service.config.AppConfig;
 import com.olive.service.storage.FileStorageService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpHost;
-import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestHighLevelClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,65 +39,6 @@ public class CommonController {
 
     private final FileStorageService fileStorageService;
     private static final String FILE_DELIMETER = ",";
-
-    @Anonymous
-    @PostMapping
-    public void pdfTest(MultipartFile file) {
-        try (
-                RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(HttpHost.create("localhost:9200")));
-                ){
-            // PDDocument document = Loader.loadPDF(RandomAccessReadBuffer.createBufferFromStream(file.getInputStream()));
-            // PDFTextStripper pdfTextStripper = new PDFTextStripper();
-            // // 文档内容
-            // String text = pdfTextStripper.getText(document);
-            //
-            // XContentBuilder mapping = XContentFactory.jsonBuilder()
-            //         .startObject()
-            //         .startObject("properties")
-            //         .startObject("content")
-            //         .field("type", "text")
-            //         .field("analyzer", "ik_max_word")
-            //         .field("search_analyzer", "ik_smart")
-            //         .startObject("fields")
-            //         .startObject("keyword")
-            //         .field("type", "keyword")
-            //         .endObject()
-            //         .endObject()
-            //         .endObject()
-            //         .startObject("title")
-            //         .field("type", "keyword")
-            //         .endObject()
-            //         .endObject()
-            //         .endObject();
-            //
-            //
-            // System.out.println(text);
-            // Map<String, String> map = Map.of(
-            //         "title", file.getOriginalFilename(),
-            //         "content", text
-            // );
-            // CreateIndexResponse response = client.indices()
-            //         .create(new CreateIndexRequest("ik_test").settings(
-            //                                 Settings.builder()
-            //                                         .put("index.number_of_shards", 3)
-            //                                         .put("index.number_of_replicas", 1)
-            //                                         .build()
-            //                         )
-            //                         .mapping(mapping)
-            //                         .source(map)
-            //                 ,
-            //                 RequestOptions.DEFAULT);
-            //
-            // System.out.println(response.toString());
-
-            // new SearchRequest("ik_test", new SearchSourceBuilder().query(
-            //         QueryBuilders.matchQuery("content", "数据库监控")
-            // ))
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     /**
      * 通用下载请求
@@ -120,25 +63,16 @@ public class CommonController {
     /**
      * 通用上传请求（单个）
      */
-    @PostMapping("/upload")
     @Anonymous
-    public Map<String, Object> uploadFile(@RequestPart MultipartFile file) throws Exception {
-        try {
-            String uploadPath = fileStorageService.upload(file);
-
-
-            log.info("file upload path is  {}", uploadPath);
-            String fileName = "";
-            String url = getUrl() + fileName;
-            return Map.of(
-                    "url", url,
-                    "fileName", fileName,
-                    "newFileName", FilenameUtils.getName(fileName),
-                    "originalFilename", file.getOriginalFilename()
-            );
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
+    @PostMapping("/upload")
+    public Map<String, Object> uploadFile(@RequestPart("file") MultipartFile file) throws Exception {
+        String url = fileStorageService.upload(file);
+        return Map.of(
+                "url", url,
+                // "fileName", fileName,
+                // "newFileName", FilenameUtils.getName(fileName),
+                "originalFilename", file.getOriginalFilename()
+        );
     }
 
     /**

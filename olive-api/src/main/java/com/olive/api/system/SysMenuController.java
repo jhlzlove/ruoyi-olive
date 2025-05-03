@@ -1,6 +1,6 @@
 package com.olive.api.system;
 
-import com.olive.framework.log.Log;
+import com.olive.service.aop.log.Log;
 import com.olive.model.SysMenu;
 import com.olive.model.TreeSelect;
 import com.olive.model.constant.BusinessType;

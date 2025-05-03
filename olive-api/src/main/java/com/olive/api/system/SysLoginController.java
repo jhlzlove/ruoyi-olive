@@ -1,6 +1,5 @@
 package com.olive.api.system;
 
-import com.olive.framework.util.SecurityUtils;
 import com.olive.model.LoginUser;
 import com.olive.model.RouterVo;
 import com.olive.model.SysUser;
@@ -10,6 +9,7 @@ import com.olive.service.SysLoginService;
 import com.olive.service.SysMenuService;
 import com.olive.service.SysPermissionService;
 import com.olive.service.TokenService;
+import com.olive.service.security.SecurityUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,6 +43,7 @@ public class SysLoginController {
      */
     @PostMapping("/login")
     public Map<String, Object> login(@RequestBody LoginBody loginBody) {
+        log.info("login info {}", loginBody);
         // 生成令牌
         String token = loginService.login(loginBody.username(),
                 loginBody.password(),

@@ -1,36 +1,49 @@
-# 关于
+# 启动项目
 
 ## 后端
 
+idea 中添加启动类 `OliveApplication`，并添加 VM Options：`-Dio.netty.noUnsafe=true --enable-native-access=ALL-UNNAMED`，然后启动项目。
+
+## 前端
+
+```bash
+cd ruoyi-olive-vue3
+pnpm i
+pnpm dev
+```
+
+## 使用工具
+
 - Maven 3.9+
-- JDK 25+
+- JDK 24+
 - Redis
 - MySQL 8.0+
+- NodeJs 22+
 
-## 模块
+## 项目模块
 
 ```bash
 ├── docs                # 文档
 ├── olive-api           # api 启动类入口
 ├── olive-base          # 基础模块
 ├── olive-model         # 实体模块
-├── olive-service       # service 实现
-├── olive-framework     #
+├── olive-service       # service
+├── ruoyi-olive-vue3    # 前端
 ├── podman-compose.yml  # 容器环境部署
 ├── sql                 # sql
 ```
 
 ### 依赖关系
 
-olive-base 模块与框架无关，可以单独抽离出去为任何业务框架使用，主要作用是为项目使用的外围工具做一个隔离层，也方便快速复制到其它项目。
+olive-base 模块与框架无关，可以单独抽离出去为任何业务框架使用，主要作用是为项目使用的外围工具做一个隔离层(里面的依赖单独维护)，也方便快速复制到其它项目。
 
-olive-model 是实体模块，包含了使用 jimmer apt 能力的所有相关实体和其它诸如异常和 dto 的定义，框架的依赖由此开始引入。
+olive-model 是实体模块，包含了使用 jimmer apt 能力的所有相关实体和其它诸如异常和 dto 的定义，本应用框架的依赖由此模块开始引入。
 
 olive-service 为业务实现模块，是业务的具体逻辑实现，依赖 olive-model 模块。
 
 olive-framework 模块为项目的整体配置中心和业务处理核心（其实完全可以和 service 模块整合到一起），依赖 olive-service 模块。
 
-> - maven 的依赖默认向外传递，因此这样设计模块；gradle 的依赖默认模块内可见，两者是不同的。
+> - maven 的多模块项目内的依赖默认向外传递，因此采用上述方式设计模块；而 gradle 默认模块内可见，两者是不同的。
 > - 不太推荐多模块，多模块优势不是很明显，而且写代码之前我还得考虑考虑放在哪个模块，分得越多，还得考虑模块间的调用依赖性，麻烦。
 > - 实际项目中可以一个模块，按包(package)拆分，也便于做大做强后改为微服务架构。这个工程仍在使用多模块是因为这是个练习项目。
 
@@ -49,14 +62,10 @@ olive-framework 模块为项目的整体配置中心和业务处理核心（其�
 - 插件管理：它预配置了一些常用的 Maven 插件，如 `spring-boot-maven-plugin`、`maven-compiler-plugin` 等，使用时无需自定义版本信息，简化了构建配置。
 - 默认配置：它提供了一些默认的配置，如编码、JAR 包的打包方式等，使得项目配置更加简洁。
 
-## 缓存
+## idea 社区版插件推荐
 
-缓存（目前只有 Redis）使用 CacheManger，使用时直接注入，缓存的时间按照名称统一配置，个别情况使用 RestTemplate 操作(CacheManger 不包含所有的 redis 的操作 api)。不再封装各种 cache util。
-
-## 前端
-
-```bash
-cd ruoyi-olive-vue3
-pnpm i
-pnpm dev
-```
+- []()
+- []()
+- []()
+- []()
+- []()

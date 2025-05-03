@@ -6,13 +6,14 @@ import com.olive.model.exception.SecurityException;
 import com.olive.model.exception.SysUserException;
 import com.olive.model.record.PageQuery;
 import com.olive.model.record.SysUserCondition;
-import com.olive.service.util.SecurityUtils;
+import com.olive.service.security.SecurityUtils;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.babyfish.jimmer.DraftObjects;
 import org.babyfish.jimmer.Page;
 import org.babyfish.jimmer.sql.JSqlClient;
+import org.babyfish.jimmer.sql.JoinType;
 import org.babyfish.jimmer.sql.ast.Predicate;
 import org.babyfish.jimmer.sql.ast.query.ConfigurableSubQuery;
 import org.springframework.stereotype.Service;
@@ -49,11 +50,12 @@ public class SysUserService {
 
         return sqlClient.createQuery(table)
                 .where(search)
-                .where(Predicate.or(table.deptId().inIf(subQuery), table.deptId().eq(deptId)))
+                .where(table.dept(JoinType.LEFT).deptId().eqIf(deptId))
+                // .where(Predicate.or(table.deptId().inIf(subQuery), table.deptId().eq(deptId)))
                 .where(table.delFlag().eq("0"))
                 .select(table.fetch(
-                        Fetchers.SYS_USER_FETCHER.allScalarFields()
-                                .dept(Fetchers.SYS_DEPT_FETCHER.deptName())
+                        SysUserFetcher.$.allScalarFields()
+                                .dept(SysDeptFetcher.$.deptName())
                 ))
                 .fetchPage(page.pageNum() - 1, page.pageSize());
     }
@@ -62,11 +64,10 @@ public class SysUserService {
         Long deptId = user.deptId();
         return sqlClient.createQuery(table)
                 .where(table.delFlag().eq("0"))
-                .where(table.dept().deptId().eqIf(deptId))
-                .where(table.roles(role -> role.roleId().inIf(user.roleIds())))
+                .where(table.roles(role -> role.roleId().eq(user.roleId())))
                 .where(table.userName().eqIf(user.userName()))
                 .where(table.phonenumber().eqIf(user.phonenumber()))
-                .select(table.fetch(Fetchers.SYS_USER_FETCHER
+                .select(table.fetch(SysUserFetcher.$
                         .deptId()
                         .userName()
                         .nickName()
@@ -108,7 +109,7 @@ public class SysUserService {
                 .where(table.roles(role -> role.roleId().inIf(user.roleIds())))
                 .where(table.userName().eqIf(user.userName()))
                 .where(table.phonenumber().eqIf(user.phonenumber()))
-                .select(table.fetch(Fetchers.SYS_USER_FETCHER
+                .select(table.fetch(SysUserFetcher.$
                         .deptId()
                         .userName()
                         .nickName()
@@ -123,7 +124,7 @@ public class SysUserService {
     public SysUser info(Long userId) {
         return sqlClient.createQuery(table)
                 .where(table.userId().eq(userId))
-                .select(table.fetch(Fetchers.SYS_USER_FETCHER.allScalarFields().roleIds()))
+                .select(table.fetch(SysUserFetcher.$.allScalarFields().roleIds()))
                 .fetchOne();
     }
 
@@ -140,8 +141,7 @@ public class SysUserService {
         List<SysPost> list = sqlClient.createQuery(postTable)
                 .where(postTable.userList(u -> u.userName().eq(username)))
                 .select(postTable.fetch(
-                        Fetchers.SYS_POST_FETCHER
-                                .postName().postCode()
+                        SysPostFetcher.$.postName().postCode()
                 ))
                 .execute();
 
@@ -189,7 +189,7 @@ public class SysUserService {
                 .where(table.userName().eq(username))
                 .select(
                         table.fetch(
-                                Fetchers.SYS_USER_FETCHER.allScalarFields()
+                                SysUserFetcher.$.allScalarFields()
                                         .roles(Fetchers.SYS_ROLE_FETCHER.allScalarFields())
                                         .dept(Fetchers.SYS_DEPT_FETCHER.allScalarFields())
                         )
@@ -250,8 +250,7 @@ public class SysUserService {
      */
     public void checkUserDataScope(Long userId) {
         Long id = SecurityUtils.getUserId();
-        if (!(Objects.nonNull(id) && 1L == id)) {
-
+        if (Objects.nonNull(id) && 1L != id) {
             List<SysUser> result = sqlClient.createQuery(table)
                     .where(table.delFlag().eq("0"))
                     .where(table.userId().eq(userId))

@@ -8,10 +8,7 @@ import lombok.AllArgsConstructor;
 import org.babyfish.jimmer.Page;
 import org.babyfish.jimmer.sql.JSqlClient;
 import org.springframework.cache.CacheManager;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
@@ -26,7 +23,6 @@ import java.util.Objects;
 public class TestController {
     private final JSqlClient sqlClient;
     private final CacheManager cacheManager;
-    // private final RestHighLevelClient restHighLevelClient;
 
     @GetMapping("/users")
     public Page<SysUser> getUsers(PageQuery pageQuery) {
@@ -64,5 +60,12 @@ public class TestController {
     public R cache(String prefix) {
         cacheManager.getCache(prefix).put("111", "Apple");
         return R.ok();
+    }
+
+
+    @GetMapping("/http")
+    public String springHttpTest() {
+        // DatabaseMetaData
+        return "";
     }
 }

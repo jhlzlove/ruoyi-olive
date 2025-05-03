@@ -2,7 +2,7 @@ package com.olive.api.common;
 
 import com.google.code.kaptcha.Producer;
 import com.olive.base.utils.uuid.IdUtils;
-import com.olive.framework.config.AppConfig;
+import com.olive.service.config.AppConfig;
 import com.olive.model.constant.CacheConstant;
 import com.olive.service.SysConfigService;
 import jakarta.annotation.Resource;

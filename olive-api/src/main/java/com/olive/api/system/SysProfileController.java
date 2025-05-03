@@ -1,7 +1,6 @@
 package com.olive.api.system;
 
-import com.olive.framework.log.Log;
-import com.olive.framework.util.SecurityUtils;
+import com.olive.service.aop.log.Log;
 import com.olive.model.LoginUser;
 import com.olive.model.SysUser;
 import com.olive.model.SysUserDraft;
@@ -10,6 +9,7 @@ import com.olive.model.exception.SecurityException;
 import com.olive.model.exception.SysUserException;
 import com.olive.service.SysUserService;
 import com.olive.service.TokenService;
+import com.olive.service.security.SecurityUtils;
 import lombok.AllArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;

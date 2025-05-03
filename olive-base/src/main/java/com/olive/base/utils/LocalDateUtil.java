@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.Temporal;
 
 /**
- * jsr310 日期格式工具类
+ * jsr310 日期工具类
  *
  * @author jhlz
  * @version 1.0.0
@@ -31,6 +31,7 @@ public class LocalDateUtil {
 
     /**
      * 获取当前的 LocalDateTime
+     *
      * @return LocalDateTime
      */
     public static LocalDateTime dateTime() {
@@ -39,6 +40,7 @@ public class LocalDateUtil {
 
     /**
      * 获取当前的 LocalDate
+     *
      * @return LocalDate
      */
     public static LocalDate date() {
@@ -46,25 +48,39 @@ public class LocalDateUtil {
     }
 
     /**
+     * 将 LocalDate/LocalDateTime 日期转为默认格式的字符串类型
      *
-     * @param temporal
-     * @return
+     * @param temporal LocalDate/LocalDateTime 日期
+     * @return 字符串
      */
     public static String toStr(Temporal temporal) {
-        if (temporal instanceof LocalDate) {
-            return DateTimeFormatter.ofPattern(DATE_PATTERN).format(temporal);
-        }
-        if (temporal instanceof LocalDateTime) {
-            return DateTimeFormatter.ofPattern(DATE_TIME_PATTERN).format(temporal);
-        }
-        return null;
+        return switch (temporal) {
+            case LocalDate time -> DateTimeFormatter.ofPattern(DATE_PATTERN).format(time);
+            case LocalDateTime time -> DateTimeFormatter.ofPattern(DATE_TIME_PATTERN).format(time);
+            case null, default -> null;
+        };
+    }
+
+    /**
+     * 将 LocalDate/LocalDateTime 指定的日期转为指定格式的字符串类型
+     *
+     * @param temporal LocalDate/LocalDateTime 日期
+     * @param pattern  指定格式的日期字符串
+     * @return 字符串
+     */
+    public static String toStr(Temporal temporal, String pattern) {
+        return switch (temporal) {
+            case LocalDate time -> DateTimeFormatter.ofPattern(pattern).format(time);
+            case LocalDateTime time -> DateTimeFormatter.ofPattern(pattern).format(time);
+            case null, default -> null;
+        };
     }
 
     /**
      * LocalDate 日期字符串解析为 LocalDateTime 格式
      *
-     * @param str  LocalDate 格式字符串
-     * @return  LocalDateTime，末尾为 00:00:00
+     * @param str LocalDate 格式字符串
+     * @return LocalDateTime，末尾为 00:00:00
      */
     public static LocalDateTime dateStrToDateTime(String str) {
         return strToDate(str).atStartOfDay();
@@ -73,7 +89,7 @@ public class LocalDateUtil {
     /**
      * 使用默认格式解析字符串为 LocalDate 格式
      *
-     * @param str   日期字符串
+     * @param str 日期字符串
      * @return LocalDate
      */
     public static LocalDate strToDate(String str) {
@@ -83,26 +99,13 @@ public class LocalDateUtil {
     /**
      * 根据指定的 pattern 解析日期字符串为 LocalDate
      *
-     * @param str 日期字符串
+     * @param str     日期字符串
      * @param pattern 字符串日期格式，默认为 yyyy-MM-dd
      * @return LocalDate 日期
      */
     public static LocalDate strToDate(String str, String pattern) {
         String format = StringUtils.isNotEmpty(pattern) ? pattern : DATE_PATTERN;
         return LocalDate.parse(str, DateTimeFormatter.ofPattern(format));
-    }
-
-    /**
-     * LocalDate 转为指定格式的字符串日期
-     *
-     * @param date    LocalDate 日期
-     * @param pattern 格式，默认为 yyyy-MM-dd
-     * @return 指定格式的字符串日期
-     */
-    public static String dateToStr(LocalDate date, String pattern) {
-        DateTimeFormatter.ofPattern(pattern).format(date);
-        String format = StringUtils.isNotEmpty(pattern) ? pattern : DATE_PATTERN;
-        return date.format(DateTimeFormatter.ofPattern(format));
     }
 
     /**
@@ -115,17 +118,5 @@ public class LocalDateUtil {
     public static LocalDateTime strToDateTime(String date, String pattern) {
         String format = StringUtils.isNotEmpty(pattern) ? pattern : DATE_TIME_PATTERN;
         return LocalDateTime.parse(date, DateTimeFormatter.ofPattern(format));
-    }
-
-    /**
-     * LocalDateTime 格式化为指定格式的字符串日期
-     *
-     * @param date    LocalDateTime 日期
-     * @param pattern 格式，默认为 yyyy-MM-dd HH:mm:ss
-     * @return 指定格式的字符串日期
-     */
-    public static String dateTimeToStr(LocalDateTime date, String pattern) {
-        String format = StringUtils.isNotEmpty(pattern) ? pattern : DATE_TIME_PATTERN;
-        return date.format(DateTimeFormatter.ofPattern(format));
     }
 }

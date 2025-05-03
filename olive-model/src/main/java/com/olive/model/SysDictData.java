@@ -66,8 +66,4 @@ public interface SysDictData extends BaseEntity {
      */
     @Nullable
     String remark();
-
-    @Nullable
-    @ManyToOne
-    SysDictType sysDictType();
 }

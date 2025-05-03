@@ -1,6 +1,6 @@
 package com.olive.api.common;
 
-import com.olive.framework.annotation.Anonymous;
+import com.olive.service.annotation.Anonymous;
 import com.olive.service.storage.FileStorageService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

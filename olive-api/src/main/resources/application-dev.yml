@@ -55,12 +55,11 @@ jimmer:
           version: 1.0.0
 
 storage:
-  type: minio
+  type: LOCAL
   local:
-    base-path: data/file
+    base-path: data/file/
   minio:
     url: http://localhost:9000
     access-key: admin
     secret-key: 123456
     default-bucket: file
-

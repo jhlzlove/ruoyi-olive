@@ -43,7 +43,4 @@ public interface SysDictType extends BaseEntity {
      */
     @Nullable
     String remark();
-
-    @OneToMany(mappedBy = "sysDictType")
-    List<SysDictData> dictDataList();
 }

@@ -2,7 +2,6 @@ package com.olive.service.security;
 
 import com.olive.model.LoginUser;
 import com.olive.model.SysRole;
-import com.olive.service.security.context.PermissionContextHolder;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;

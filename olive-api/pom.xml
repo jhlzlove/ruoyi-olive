@@ -18,7 +18,7 @@
     <dependencies>
         <dependency>
             <groupId>com.olive</groupId>
-            <artifactId>olive-framework</artifactId>
+            <artifactId>olive-service</artifactId>
         </dependency>
 
         <!-- spring-boot-devtools -->
