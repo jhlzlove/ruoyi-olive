@@ -48,9 +48,9 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          routeBasePath: '/',
+//          routeBasePath: '/',
           // 指定文档路径
-          path: './docs',
+//          path: './docs',
           lastVersion: 'current',
           versions: {
             current: {
@@ -70,7 +70,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/jhlzlove/ruoyi-olive/tree/main/docs/docs/',
         },
         blog: {
           showReadingTime: true,
@@ -81,7 +81,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/jhlzlove/ruoyi-olive/tree/main/docs/blog/',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
