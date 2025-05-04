@@ -1,4 +1,4 @@
-package com.olive.base.utils;
+package com.olive.base.util;
 
 import org.apache.commons.lang3.StringUtils;
 

@@ -1,6 +1,6 @@
 package com.olive.base.sysinfo;
 
-import com.olive.base.utils.Arith;
+import com.olive.base.util.Arith;
 import oshi.SystemInfo;
 import oshi.hardware.GlobalMemory;
 

@@ -1,4 +1,4 @@
-package com.olive.base.utils;
+package com.olive.base.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

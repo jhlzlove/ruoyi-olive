@@ -1,10 +1,10 @@
 package com.olive.api.common;
 
 import com.google.code.kaptcha.Producer;
-import com.olive.base.utils.uuid.IdUtils;
-import com.olive.service.config.AppConfig;
+import com.olive.base.util.uuid.IdUtils;
 import com.olive.model.constant.CacheConstant;
 import com.olive.service.SysConfigService;
+import com.olive.service.config.AppProperties;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -34,6 +34,7 @@ public class CaptchaController {
     private Producer captchaProducerMath;
     private final SysConfigService configService;
     private final CacheManager cacheManager;
+    private final AppProperties appProperties;
 
     /**
      * 生成验证码
@@ -49,7 +50,7 @@ public class CaptchaController {
         String capStr = null, code = null;
         BufferedImage image = null;
         // 生成验证码
-        String captchaType = AppConfig.getCaptchaType();
+        String captchaType = appProperties.captchaType();
         if ("math".equals(captchaType)) {
             String capText = captchaProducerMath.createText();
             capStr = capText.substring(0, capText.lastIndexOf("@"));

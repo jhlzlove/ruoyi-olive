@@ -7,18 +7,6 @@
         <groupId>com.olive</groupId>
         <version>${revision}</version>
     </parent>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>21</source>
-                    <target>21</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>olive-base</artifactId>
@@ -36,21 +24,9 @@
         <oshi.version>6.8.0</oshi.version>
         <useragent.version>1.21</useragent.version>
         <poi.version>5.4.1</poi.version>
-        <zxing.version>3.5.3</zxing.version>
     </properties>
 
     <dependencies>
-
-        <dependency>
-            <groupId>com.google.zxing</groupId>
-            <artifactId>core</artifactId>
-            <version>${zxing.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.zxing</groupId>
-            <artifactId>javase</artifactId>
-            <version>${zxing.version}</version>
-        </dependency>
         <!-- 系统信息 -->
         <dependency>
             <groupId>com.github.oshi</groupId>

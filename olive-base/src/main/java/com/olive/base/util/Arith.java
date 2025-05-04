@@ -1,4 +1,4 @@
-package com.olive.base.utils;
+package com.olive.base.util;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

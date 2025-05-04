@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.babyfish.jimmer.Page;
 import org.babyfish.jimmer.sql.JSqlClient;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +25,6 @@ import java.util.List;
 @AllArgsConstructor
 public class DictDataService {
     private final JSqlClient sqlClient;
-    private final CacheManager cacheManager;
     private static final SysDictDataTable table = SysDictDataTable.$;
 
     /**
@@ -81,7 +81,6 @@ public class DictDataService {
         if (exists) {
             throw SysDictException.dictDataExist(data.dictType(), data.dictLabel(), "键值不能重复！");
         }
-        cacheManager.getCache(CacheConstant.CACHE_DICT_KEY).put(data.dictType(), listByDictType(data.dictType()));
         return sqlClient.getEntities().save(data).getTotalAffectedRowCount() > 0;
     }
 
@@ -107,7 +106,6 @@ public class DictDataService {
                     "键值不能重复！"
             );
         }
-        cacheManager.getCache(CacheConstant.CACHE_DICT_KEY).put(data.dictType(), listByDictType(data.dictType()));
         return sqlClient.getEntities().save(data).getTotalAffectedRowCount() > 0;
     }
 
@@ -128,7 +126,6 @@ public class DictDataService {
                     .select(table.fetch(SysDictDataFetcher.$.allScalarFields()))
                     .execute();
             sqlClient.deleteById(SysDictData.class, dictCode);
-            cacheManager.getCache(CacheConstant.CACHE_DICT_KEY).put(sysDictData.dictType(), data);
         });
     }
 }

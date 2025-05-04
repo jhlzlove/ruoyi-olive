@@ -1,6 +1,6 @@
 package com.olive.service.manager.factory;
 
-import com.olive.base.utils.LocalDateUtil;
+import com.olive.base.util.LocalDateUtil;
 import com.olive.model.SysLoginLog;
 import com.olive.model.SysLoginLogDraft;
 import com.olive.model.SysOperLog;

@@ -1,6 +1,6 @@
 package com.olive.base.util;
 
-import com.olive.base.utils.uuid.UUID;
+import com.olive.base.util.uuid.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

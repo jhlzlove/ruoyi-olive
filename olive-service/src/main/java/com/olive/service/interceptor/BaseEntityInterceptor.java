@@ -1,6 +1,6 @@
 package com.olive.service.interceptor;
 
-import com.olive.base.utils.LocalDateUtil;
+import com.olive.base.util.LocalDateUtil;
 import com.olive.model.BaseEntity;
 import com.olive.model.BaseEntityDraft;
 import com.olive.model.BaseEntityProps;

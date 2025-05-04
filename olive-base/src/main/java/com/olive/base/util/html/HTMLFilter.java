@@ -1,4 +1,4 @@
-package com.olive.base.utils.html;
+package com.olive.base.util.html;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

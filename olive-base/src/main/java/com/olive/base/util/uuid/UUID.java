@@ -1,4 +1,4 @@
-package com.olive.base.utils.uuid;
+package com.olive.base.util.uuid;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

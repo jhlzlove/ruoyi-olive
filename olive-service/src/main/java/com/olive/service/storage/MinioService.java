@@ -1,7 +1,7 @@
 package com.olive.service.storage;
 
-import com.olive.base.utils.LocalDateUtil;
-import com.olive.base.utils.uuid.UUID;
+import com.olive.base.util.LocalDateUtil;
+import com.olive.base.util.uuid.UUID;
 import com.olive.service.util.SpringUtils;
 import io.minio.*;
 import io.minio.errors.*;

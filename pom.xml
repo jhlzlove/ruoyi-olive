@@ -28,8 +28,10 @@
 
     <properties>
         <revision>0.0.1</revision>
+        <java.version>24</java.version>
         <maven.compiler.source>24</maven.compiler.source>
         <maven.compiler.target>24</maven.compiler.target>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <jimmer.version>0.9.81</jimmer.version>
@@ -37,18 +39,11 @@
         <kaptcha.version>2.3.3</kaptcha.version>
         <mysql.version>8.0.33</mysql.version>
         <minio.version>8.5.17</minio.version>
-        <es.version>7.17.27</es.version>
         <liquibase.version>4.31.1</liquibase.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.elasticsearch.client</groupId>
-                <artifactId>elasticsearch-rest-high-level-client</artifactId>
-                <version>${es.version}</version>
-            </dependency>
-
             <!-- jimmer -->
             <dependency>
                 <groupId>org.babyfish.jimmer</groupId>
@@ -141,6 +136,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                     <annotationProcessorPaths>
                         <!-- 如果使用了 lombok，需要确保在 jimmer apt 之前添加该内容 -->
                         <path>

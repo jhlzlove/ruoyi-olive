@@ -1,7 +1,7 @@
 package com.olive.base.sysinfo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.olive.base.utils.Arith;
+import com.olive.base.util.Arith;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
 import oshi.hardware.HardwareAbstractionLayer;

@@ -1,6 +1,6 @@
 package com.olive.service.filter;
 
-import com.olive.base.utils.html.EscapeUtil;
+import com.olive.base.util.html.EscapeUtil;
 import jakarta.servlet.ReadListener;
 import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,6 +1,6 @@
 package com.olive.service.manager;
 
-import com.olive.base.utils.Threads;
+import com.olive.base.util.Threads;
 import com.olive.service.util.SpringUtils;
 
 import java.util.TimerTask;

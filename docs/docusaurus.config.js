@@ -31,7 +31,7 @@ const config = {
   // 部署分支
   deploymentBranch: 'pages',
 
-  onBrokenLinks: 'warn',
+  onBrokenLinks: 'ignore',
   onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set
@@ -48,9 +48,6 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          routeBasePath: 'docs',
-          // 指定文档路径
-          path: 'docs',
           lastVersion: 'current',
           versions: {
             current: {
@@ -135,7 +132,7 @@ const config = {
             items: [
               {
                 label: 'Tutorial',
-                to: '/docs/intro',
+                to: '/docs/current/intro',
               },
             ],
           },

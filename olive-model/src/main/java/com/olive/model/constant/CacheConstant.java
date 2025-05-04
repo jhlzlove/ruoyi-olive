@@ -1,13 +1,10 @@
 package com.olive.model.constant;
 
-/**
- * # 全局缓存常量
- *
- * 缓存名称全部使用 **小写单数**
- *
- * @author jhlz
- * @version 0.0.1
- */
+/// # 全局缓存常量
+/// 缓存名称全部使用 **小写单数**
+///
+/// @author jhlz
+/// @version 0.0.1
 public interface CacheConstant {
     /**
      * sys_config key

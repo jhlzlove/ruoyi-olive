@@ -1,7 +1,7 @@
 package com.olive.service.exception;
 
 import com.olive.base.response.R;
-import com.olive.base.utils.html.EscapeUtil;
+import com.olive.base.util.html.EscapeUtil;
 import com.olive.service.util.Convert;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;

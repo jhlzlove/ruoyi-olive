@@ -78,11 +78,6 @@ public class DictTypeService {
 
         Map<String, List<SysDictData>> dictDataMap = result.stream()
                 .collect(Collectors.groupingBy(SysDictData::dictType));
-
-        Cache cache = cacheManager.getCache(CacheConstant.CACHE_DICT_KEY);
-        for (Map.Entry<String, List<SysDictData>> entry : dictDataMap.entrySet()) {
-            cache.put(entry.getKey(), entry.getValue().stream().sorted(Comparator.comparing(SysDictData::dictSort)).toList().toString());
-        }
     }
 
     /**
@@ -120,10 +115,6 @@ public class DictTypeService {
     @Transactional
     public int update(SysDictType dict) {
         int row = sqlClient.getEntities().save(dict).getTotalAffectedRowCount();
-        if (row > 0) {
-            List<SysDictData> dictDatas = dictDataService.listByDictType(dict.dictType());
-            cacheManager.getCache(CacheConstant.CACHE_DICT_KEY).put(dict.dictType(), dictDatas);
-        }
         return row;
     }
 
@@ -133,7 +124,6 @@ public class DictTypeService {
      * @param dictIds 需要删除的字典ID
      */
     public void delete(List<Long> dictIds) {
-        Cache cache = cacheManager.getCache(CacheConstant.CACHE_DICT_KEY);
         for (Long dictId : dictIds) {
             SysDictType dictType = info(dictId);
             Long row = sqlClient.createQuery(dataTable)
@@ -144,7 +134,6 @@ public class DictTypeService {
                 throw SysDictException.dictTypeUsed("字典类型已分配,不能删除", dictType.dictName());
             }
             sqlClient.deleteById(SysDictType.class, dictId);
-            cache.evict(dictType.dictType());
         }
     }
 

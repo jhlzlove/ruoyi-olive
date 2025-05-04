@@ -2,7 +2,7 @@ package com.olive.base.response;
 
 
 /**
- * 一般响应体(Spring 项目不推荐使用)
+ * 一般响应体
  *
  * @author jhlz
  * @version x.x.x

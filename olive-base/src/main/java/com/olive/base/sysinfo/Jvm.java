@@ -1,7 +1,7 @@
 package com.olive.base.sysinfo;
 
-import com.olive.base.utils.Arith;
-import com.olive.base.utils.LocalDateUtil;
+import com.olive.base.util.Arith;
+import com.olive.base.util.LocalDateUtil;
 
 import java.lang.management.ManagementFactory;
 import java.time.Instant;

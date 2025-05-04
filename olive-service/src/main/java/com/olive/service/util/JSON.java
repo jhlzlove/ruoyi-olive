@@ -10,7 +10,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import com.olive.base.utils.LocalDateUtil;
+import com.olive.base.util.LocalDateUtil;
 import org.babyfish.jimmer.jackson.ImmutableModule;
 
 import java.io.IOException;

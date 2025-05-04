@@ -27,6 +27,12 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>            <!-- 表示依赖不会传递 -->
         </dependency>
+        <!-- test feature -->
+        <dependency>
+            <groupId>gg.jte</groupId>
+            <artifactId>jte</artifactId>
+            <version>3.2.0</version>
+        </dependency>
     </dependencies>
 
     <build>

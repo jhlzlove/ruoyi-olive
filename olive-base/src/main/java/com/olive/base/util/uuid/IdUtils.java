@@ -1,4 +1,4 @@
-package com.olive.base.utils.uuid;
+package com.olive.base.util.uuid;
 
 /**
  * ID生成器工具类

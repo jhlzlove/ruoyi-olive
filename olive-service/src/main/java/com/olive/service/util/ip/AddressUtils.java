@@ -32,8 +32,8 @@ public class AddressUtils {
         String uri = IP_URL + "?ip=" + ip + "&json=true";
         HttpRequest request = HttpRequest.newBuilder(URI.create(uri)).GET().build();
 
-        try {
-            String resp = HttpClient.newHttpClient()
+        try (HttpClient httpClient = HttpClient.newHttpClient()){
+            String resp = httpClient
                     .send(request, HttpResponse.BodyHandlers.ofString())
                     .body();
             if (StringUtils.isEmpty(resp)) {

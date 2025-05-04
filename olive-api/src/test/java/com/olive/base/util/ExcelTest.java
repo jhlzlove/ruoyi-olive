@@ -1,6 +1,5 @@
 package com.olive.base.util;
 
-import com.olive.service.util.poi.ExcelUtil;
 import com.olive.model.SysUser;
 import org.junit.jupiter.api.Test;
 
@@ -14,11 +13,6 @@ public class ExcelTest {
      **/
     @Test
     public void excel_export_Test() {
-
-        ExcelUtil<SysUser> util = new ExcelUtil<>();
-        util.addColumn("111", SysUser::userName);
-
-        System.out.println(util);
 
         // XSSFWorkbook workbook = new XSSFWorkbook();
         // XSSFSheet sheet = workbook.createSheet("登录日志");

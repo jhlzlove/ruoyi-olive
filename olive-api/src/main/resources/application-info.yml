@@ -1,11 +1,18 @@
 # 项目相关配置
-olive:
-  # 获取ip地址开关
-  addressEnabled: false
+app:
   # 验证码类型 math 数组计算 char 字符验证
   captchaType: math
-# 用户配置
-user:
+  # token配置
+  token:
+    # 令牌自定义标识
+    header: Authorization
+    # 令牌密钥
+    secret: abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
+    # 令牌有效期（默认30分钟）
+    expireTime: 30
+
+# 缓存配置
+cache:
   password:
     # 密码最大错误次数
     maxRetryCount: 5
@@ -14,15 +21,6 @@ user:
   ip:
     maxRetryCount: 15
     lockTime: 15
-
-# token配置
-token:
-  # 令牌自定义标识
-  header: Authorization
-  # 令牌密钥
-  secret: abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
-  # 令牌有效期（默认30分钟）
-  expireTime: 30
 
 # 防止XSS攻击
 xss:

@@ -4,10 +4,11 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
-import com.olive.base.utils.uuid.IdUtils;
+import com.olive.base.util.uuid.IdUtils;
 import com.olive.model.LoginUser;
 import com.olive.model.constant.CacheConstant;
 import com.olive.model.constant.AppConstant;
+import com.olive.service.config.AppProperties;
 import com.olive.service.util.JSON;
 import com.olive.service.util.ip.AddressUtils;
 import com.olive.service.util.ip.IpUtils;
@@ -36,16 +37,16 @@ import java.util.Objects;
 public class TokenService {
     private static final Logger log = LoggerFactory.getLogger(TokenService.class);
     // 令牌自定义标识
-    @Value("${token.header}")
-    private String header;
-
-    // 令牌秘钥
-    @Value("${token.secret}")
-    private String secret;
-
-    // 令牌有效期（默认30分钟）
-    @Value("${token.expireTime}")
-    private int expireTime;
+    // @Value("${token.header}")
+    // private String header;
+    //
+    // // 令牌秘钥
+    // @Value("${token.secret}")
+    // private String secret;
+    //
+    // // 令牌有效期（默认30分钟）
+    // @Value("${token.expireTime}")
+    // private int expireTime;
 
     protected static final long MILLIS_SECOND = 1000;
 
@@ -54,9 +55,11 @@ public class TokenService {
     private static final Long MILLIS_MINUTE_TEN = 20 * 60 * 1000L;
 
     private final CacheManager cacheManager;
+    private final AppProperties appProperties;
 
-    public TokenService(CacheManager cacheManager) {
+    public TokenService(CacheManager cacheManager, AppProperties appProperties) {
         this.cacheManager = cacheManager;
+        this.appProperties = appProperties;
     }
 
     /**
@@ -140,7 +143,7 @@ public class TokenService {
      */
     public void refreshToken(LoginUser loginUser) {
         loginUser.setLoginTime(System.currentTimeMillis());
-        loginUser.setExpireTime(loginUser.getLoginTime() + expireTime * MILLIS_MINUTE);
+        loginUser.setExpireTime(loginUser.getLoginTime() + appProperties.token().expireTime() * MILLIS_MINUTE);
         cacheManager.getCache(CacheConstant.CACHE_LOGIN_TOKEN_KEY).put(loginUser.getToken(), JSON.toJSON(loginUser));
     }
 
@@ -168,7 +171,7 @@ public class TokenService {
     private String createToken(Map<String, String> claims) {
         JWTCreator.Builder builder = JWT.create();
         claims.forEach(builder::withClaim);
-        return builder.sign(Algorithm.HMAC256(secret));
+        return builder.sign(Algorithm.HMAC256(appProperties.token().secret()));
     }
 
     /**
@@ -178,7 +181,7 @@ public class TokenService {
      * @return 数据声明
      */
     private Map<String, Claim> parseToken(String token) {
-        Algorithm algorithm = Algorithm.HMAC256(secret);
+        Algorithm algorithm = Algorithm.HMAC256(appProperties.token().secret());
         return JWT.require(algorithm).build().verify(token).getClaims();
     }
 
@@ -189,7 +192,7 @@ public class TokenService {
      * @return token
      */
     private String getToken(HttpServletRequest request) {
-        String token = request.getHeader(header);
+        String token = request.getHeader(appProperties.token().header());
         if (StringUtils.isNotEmpty(token) && token.startsWith(AppConstant.TOKEN_PREFIX)) {
             token = token.replace(AppConstant.TOKEN_PREFIX, "");
         }
