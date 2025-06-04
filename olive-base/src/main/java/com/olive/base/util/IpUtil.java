@@ -1,5 +1,8 @@
 package com.olive.base.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.net.*;
 import java.util.Enumeration;
 
@@ -8,6 +11,8 @@ import java.util.Enumeration;
  * @version x.x.x
  */
 public class IpUtil {
+
+    private static final Logger log = LoggerFactory.getLogger(IpUtil.class);
 
     /**
      * 获取本机的短 hostname（非规范）
@@ -37,6 +42,7 @@ public class IpUtil {
                     Enumeration<InetAddress> inetAddresses = network.getInetAddresses();
                     if (inetAddresses.hasMoreElements()) {
                         InetAddress address = inetAddresses.nextElement();
+                        log.info("{}", address.getHostAddress());
                         return address.getHostAddress();
                     }
                 }

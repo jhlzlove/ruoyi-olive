@@ -12,7 +12,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.5</version>
+        <version>3.5.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -34,12 +34,12 @@
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <jimmer.version>0.9.81</jimmer.version>
+        <jimmer.version>0.9.89</jimmer.version>
         <lombok.version>1.18.38</lombok.version>
         <kaptcha.version>2.3.3</kaptcha.version>
-        <mysql.version>8.0.33</mysql.version>
+        <mysql.version>9.3.0</mysql.version>
         <minio.version>8.5.17</minio.version>
-        <liquibase.version>4.31.1</liquibase.version>
+        <liquibase.version>4.32.0</liquibase.version>
     </properties>
 
     <dependencyManagement>
@@ -86,27 +86,6 @@
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
             </dependency>
-
-            <!-- 基础模块-->
-            <dependency>
-                <groupId>com.olive</groupId>
-                <artifactId>olive-base</artifactId>
-                <version>${revision}</version>
-            </dependency>
-
-            <!-- service-->
-            <dependency>
-                <groupId>com.olive</groupId>
-                <artifactId>olive-service</artifactId>
-                <version>${revision}</version>
-            </dependency>
-
-            <!-- 实体模块 -->
-            <dependency>
-                <groupId>com.olive</groupId>
-                <artifactId>olive-model</artifactId>
-                <version>0.0.1</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -118,6 +97,7 @@
             </activation>
             <properties>
                 <spring.profiles.active>dev</spring.profiles.active>
+                <spring.boot.mainclass>com.olive.OliveApplication</spring.boot.mainclass>
             </properties>
         </profile>
 
@@ -125,12 +105,33 @@
             <id>prod</id>
             <properties>
                 <spring.profiles.active>prod</spring.profiles.active>
+                <spring.boot.mainclass>com.olive.OliveApplication</spring.boot.mainclass>
             </properties>
         </profile>
     </profiles>
 
     <build>
         <plugins>
+            <!-- 本机有多个 jdk，且默认环境变量的 jdk 版本和项目使用的不一致时使用此插件，需要在 toolchain.xml 先配置 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-toolchains-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>toolchain</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <toolchains>
+                        <jdk>
+                            <version>24</version>
+                        </jdk>
+                    </toolchains>
+                </configuration>
+            </plugin>
+
             <!-- 编译插件配置 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -173,42 +174,68 @@
                         </goals>
                         <configuration>
                             <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                            <overWriteReleases>false</overWriteReleases>
-                            <overWriteSnapshots>false</overWriteSnapshots>
-                            <overWriteIfNewer>true</overWriteIfNewer>
+                            <!-- <overWriteReleases>false</overWriteReleases> -->
+                            <!-- <overWriteSnapshots>false</overWriteSnapshots> -->
+                            <!-- <overWriteIfNewer>true</overWriteIfNewer> -->
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-            <!-- 配置文件分离插件 -->
+
+            <!-- 配置文件分离插件 (sprint-boot-maven-plugin 支持指定配置文件目录) -->
+            <!-- <plugin> -->
+            <!--     <groupId>org.apache.maven.plugins</groupId> -->
+            <!--     <artifactId>maven-resources-plugin</artifactId> -->
+            <!--     <executions> -->
+            <!--         <execution> -->
+            <!--             <id>copy-resources</id> -->
+            <!--             <phase>package</phase> -->
+            <!--             <goals> -->
+            <!--                 <goal>copy-resources</goal> -->
+            <!--             </goals> -->
+            <!--             <configuration> -->
+            <!--                 <outputDirectory>${project.build.directory}/conf</outputDirectory> -->
+            <!--                 <resources> -->
+            <!--                     <resource> -->
+            <!--                         <directory>src/main/resources</directory> -->
+            <!--                         <includes> -->
+            <!--                             <include>**/*.yml</include> -->
+            <!--                             <include>**/*.properties</include> -->
+            <!--                         </includes> -->
+            <!--                     </resource> -->
+            <!--                 </resources> -->
+            <!--             </configuration> -->
+            <!--         </execution> -->
+            <!--     </executions> -->
+            <!-- </plugin> -->
+
+            <!-- 将 pom 文件引用的变量解析为实际值 -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                </configuration>
                 <executions>
                     <execution>
-                        <id>copy-resources</id>
-                        <phase>package</phase>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
                         <goals>
-                            <goal>copy-resources</goal>
+                            <goal>flatten</goal>
                         </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/conf</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>src/main/resources</directory>
-                                    <includes>
-                                        <include>application*.yml</include>
-                                        <include>application*.properties</include>
-                                    </includes>
-                                </resource>
-                            </resources>
-                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
-
 
     <!-- 依赖仓库 -->
     <repositories>

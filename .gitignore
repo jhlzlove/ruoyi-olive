@@ -10,6 +10,7 @@ dependency-tree.txt
 docs/.docusaurus
 */package-lock.json
 */pnpm-lock.yaml
+.flattened-pom.xml
 
 target/
 !.mvn/wrapper/maven-wrapper.jar

@@ -19,6 +19,7 @@
         <dependency>
             <groupId>com.olive</groupId>
             <artifactId>olive-service</artifactId>
+            <version>${revision}</version>
         </dependency>
 
         <!-- spring-boot-devtools -->
@@ -38,12 +39,14 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>${spring.boot.mainclass}</mainClass>
+                    <!-- 如果只需要打成一个胖 jar 注释以下两行 -->
+                    <classifier>exec</classifier>
+                    <layout>NONE</layout>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>

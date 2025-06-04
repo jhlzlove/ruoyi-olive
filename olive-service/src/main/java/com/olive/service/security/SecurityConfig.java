@@ -1,8 +1,8 @@
 package com.olive.service.security;
 
-import com.olive.service.config.properties.PermitAllUrlProperties;
 import com.olive.service.filter.JwtAuthenticationTokenFilter;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -31,14 +32,13 @@ import java.util.List;
  * @author Dftre
  */
 @Configuration
-@AllArgsConstructor
+@RequiredArgsConstructor
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
     private final UserDetailsService userDetailsService;
     private final AuthenticationEntryPointImpl unauthorizedHandler;
     private final LogoutSuccessHandlerImpl logoutSuccessHandler;
     private final JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
-    private final PermitAllUrlProperties permitAllUrl;
 
     /**
      * anyRequest | 匹配所有请求路径
@@ -69,23 +69,34 @@ public class SecurityConfig {
                 )
                 // 注解标记允许匿名访问的url
                 .authorizeHttpRequests((requests) -> {
-                    permitAllUrl.getUrls().forEach(url -> requests.requestMatchers(url).permitAll());
-                    // 对于登录login 注册register 验证码captchaImage 允许匿名访问
-                    requests.requestMatchers("/login", "/register", "/captchaImage")
+                    requests
+                            // 放行 actuator
+                            .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
+                            // 登录 login、register、captchaImage 只允许匿名访问(即未登录状态)
+                            .requestMatchers("/login", "/register", "/captchaImage")
                             .anonymous()
-                            // 静态资源，可匿名访问
-                            .requestMatchers(HttpMethod.GET, "/", "/*.html","/data/file/**",
-                                    "/**.html", "/**.css", "/**.js",
-                                    "/profile/**", "/biz/company/**")
-                            .permitAll()
-                            .requestMatchers("/swagger-ui.html", "/swagger-resources/**",
-                                    "/webjars/**", "/*/api-docs",
-                                    "/test/**", "/openapi.*"
+                            // 静态资源
+                            .requestMatchers(
+                                    // swagger
+                                    "/swagger-ui/**",
+                                    "/swagger-resources/**",
+                                    "/v2/api-docs",
+                                    "/v3/api-docs/**",
+                                    "/webjars/**",
+                                    // jimmer swagger 默认实现路径
+                                    "/openapi.html",
+                                    "/openapi.yml"
                             )
                             .permitAll()
-                            .requestMatchers("/websocket/**")
+                            .requestMatchers(
+                                    // 测试接口完全放开
+                                    "/test/**",
+                                    // other
+                                    "/biz/company/**",
+                                    "/websocket/**"
+                            )
                             .permitAll()
-                            // 除上面外的所有请求全部需要鉴权认证
+                            // 其它请求全部需要鉴权认证
                             .anyRequest().authenticated();
                 })
                 // 认证数据源

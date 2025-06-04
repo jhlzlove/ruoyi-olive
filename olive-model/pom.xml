@@ -39,6 +39,10 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional> <!-- 标记为可选，避免传递依赖 -->
         </dependency>
@@ -47,6 +51,8 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
+
+        <!-- camunda -->
 
         <!-- jimmer -->
         <dependency>
@@ -83,6 +89,7 @@
         <dependency>
             <groupId>com.olive</groupId>
             <artifactId>olive-base</artifactId>
+            <version>${revision}</version>
         </dependency>
     </dependencies>
 

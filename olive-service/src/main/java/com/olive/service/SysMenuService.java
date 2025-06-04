@@ -62,8 +62,7 @@ public class SysMenuService {
                                         .parentId()
                                         .menuName()
                                         .recursiveChildren()
-                        )
-                )
+                        ))
                 .execute();
         List<TreeSelect> list = result.stream().map(TreeSelect::new).toList();
         return Map.of("menus", list, "checkedKeys", selectMenuListByRoleId(roleId));

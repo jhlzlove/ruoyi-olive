@@ -10,9 +10,13 @@ import java.util.Objects;
  * @version x.x.x
  */
 public record PageQuery(
+        // 页码
         int pageNum,
+        // 每页显示数量
         int pageSize,
+        // 开始时间
         LocalDateTime beginTime,
+        // 结束时间
         LocalDateTime endTime
 ) {
     public PageQuery(int pageNum, int pageSize) {

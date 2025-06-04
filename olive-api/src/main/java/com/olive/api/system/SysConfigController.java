@@ -1,13 +1,12 @@
 package com.olive.api.system;
 
 import com.olive.base.response.R;
-import com.olive.service.annotation.Anonymous;
-import com.olive.service.aop.log.Log;
 import com.olive.model.SysConfig;
 import com.olive.model.constant.BusinessType;
 import com.olive.model.dto.SysConfigSearch;
 import com.olive.model.record.PageQuery;
 import com.olive.service.SysConfigService;
+import com.olive.service.aop.log.Log;
 import lombok.AllArgsConstructor;
 import org.babyfish.jimmer.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -58,7 +57,6 @@ public class SysConfigController {
      * 根据参数键名查询参数值
      */
     @GetMapping(value = "/configKey/{configKey}")
-    @Anonymous
     public R getConfigKey(@PathVariable(name = "configKey") String configKey) {
         return R.ok(configService.listByConfigKey(configKey));
     }

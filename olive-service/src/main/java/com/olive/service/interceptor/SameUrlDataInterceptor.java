@@ -1,6 +1,8 @@
 package com.olive.service.interceptor;
 
 import com.olive.service.annotation.RepeatSubmit;
+import com.olive.service.cache.CacheProperties;
+import com.olive.service.config.AppProperties;
 import com.olive.service.filter.RepeatedlyRequestWrapper;
 import com.olive.model.constant.CacheConstant;
 import com.olive.service.util.JSON;
@@ -37,13 +39,15 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
     public final String REPEAT_TIME = "repeatTime";
 
     // 令牌自定义标识
-    @Value("${token.header}")
-    private String header;
+    // @Value("${token.header}")
+    // private String header;
 
     private final CacheManager cacheManager;
+    private final AppProperties appProperties;
 
-    public SameUrlDataInterceptor(CacheManager cacheManager) {
+    public SameUrlDataInterceptor(CacheManager cacheManager, AppProperties appProperties) {
         this.cacheManager = cacheManager;
+        this.appProperties = appProperties;
     }
 
     @SuppressWarnings("unchecked")
@@ -64,7 +68,7 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
         // 请求地址（作为存放cache的key值）
         String url = request.getRequestURI();
         // 唯一值（没有消息头则使用请求地址）
-        String submitKey = StringUtils.trimToEmpty(request.getHeader(header));
+        String submitKey = StringUtils.trimToEmpty(request.getHeader(appProperties.token().header()));
         // 唯一标识（指定key + url + 消息头）
         String cacheRepeatKey = url + submitKey;
         Cache cache = cacheManager.getCache(CacheConstant.REPEAT_SUBMIT_KEY);

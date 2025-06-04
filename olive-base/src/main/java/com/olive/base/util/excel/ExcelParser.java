@@ -2,12 +2,14 @@ package com.olive.base.util.excel;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.NumberToTextConverter;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -46,11 +48,13 @@ public class ExcelParser {
     public static List<Map<Integer, Object>> getRows(Sheet sheet) {
         List<Map<Integer, Object>> values = new ArrayList<>();
         for (Row row : sheet) {
-            Map<Integer, Object> map = new HashMap<>();
             int numberOfCells = row.getPhysicalNumberOfCells();
+            // String[] valueArr = new String[numberOfCells];
+            Map<Integer, Object> map = new HashMap<>();
             for (int i = 0; i < numberOfCells; i++) {
                 String value = mergeRegionValue(sheet, row.getCell(i));
                 map.put(i, value);
+                // valueArr[i] = value;
             }
             values.add(map);
         }
@@ -88,10 +92,17 @@ public class ExcelParser {
             case STRING -> cell.getStringCellValue();
             case BOOLEAN -> String.valueOf(cell.getBooleanCellValue());
             case NUMERIC -> {
-                // todo 浮点数类型处理
-                Double cellValue = cell.getNumericCellValue();
-                yield String.valueOf(DateUtil.isCellDateFormatted(cell) ?
-                        cell.getLocalDateTimeCellValue() : cellValue.intValue());
+                if (DateUtil.isCellDateFormatted(cell))
+                    yield cell.getLocalDateTimeCellValue().toString();
+                try {
+                    Double cellValue = cell.getNumericCellValue();
+                    yield String.valueOf(cellValue.longValue());
+                } catch (Exception e) {
+                    yield String.valueOf(cell.getNumericCellValue());
+                }
+                // NumberToTextConverter.toText 可以获取精确的数字，如果不要求精度可以直接使用返回的 double，提高效率
+                // String cellValue = NumberToTextConverter.toText(cell.getNumericCellValue());
+                // BigDecimal num = new BigDecimal(cellValue);
             }
             case FORMULA -> cell.getCellFormula();
             case ERROR -> String.valueOf(cell.getErrorCellValue());

@@ -1,6 +1,5 @@
 package com.olive.api.common;
 
-import com.olive.service.annotation.Anonymous;
 import com.olive.service.storage.FileStorageService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -40,7 +39,6 @@ public class CommonController {
      * @param delete   是否删除
      */
     @GetMapping("/download")
-    @Anonymous
     public void fileDownload(
             @RequestParam("fileName") String fileName,
             @RequestParam("delete") Boolean delete,
@@ -56,7 +54,6 @@ public class CommonController {
     /**
      * 通用上传请求（单个）
      */
-    @Anonymous
     @PostMapping("/upload")
     public Map<String, Object> uploadFile(@RequestPart("file") MultipartFile file) throws Exception {
         String url = fileStorageService.upload(file);
@@ -72,7 +69,6 @@ public class CommonController {
      * 通用上传请求（多个）
      */
     @PostMapping("/uploads")
-    @Anonymous
     public Map<String, Object> uploadFiles(@RequestPart List<MultipartFile> files)
             throws Exception {
         try {
@@ -105,7 +101,6 @@ public class CommonController {
      * 本地资源通用下载
      */
     @GetMapping("/download/resource")
-    @Anonymous
     public void resourceDownload(@RequestParam String resource,
                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
         try {

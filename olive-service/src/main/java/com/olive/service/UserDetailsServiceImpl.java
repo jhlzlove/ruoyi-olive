@@ -1,11 +1,10 @@
 package com.olive.service;
 
-import com.olive.model.LoginUser;
-import com.olive.model.SysUser;
-import com.olive.model.SysUserDraft;
+import com.olive.model.*;
 import com.olive.model.constant.UserStatus;
 import com.olive.model.exception.SecurityException;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +22,7 @@ import java.util.Objects;
  * @author ruoyi
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService, UserDetailsPasswordService {
     private static final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
     private final SysUserService userService;

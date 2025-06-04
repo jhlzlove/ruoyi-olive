@@ -2,7 +2,7 @@ version: '3'
 
 services:
   mysql:
-    image: swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/mysql:8.0.39
+    image: swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/mysql:8.0.42
     container_name: mysql8
     restart: always
     ports:
@@ -20,7 +20,7 @@ services:
     command: --bind-address=0.0.0.0
 
   redis:
-    image: swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/redis:7.4.1
+    image: swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/redis:8.0.1
     container_name: redis
     restart: always
     ports:
@@ -35,7 +35,7 @@ services:
       - /data/server/podman/redis/log:/var/log/redis
 
   nginx:
-    image: swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/library/nginx:1.27
+    image: swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/library/nginx:1.27.5
     container_name: nginx
     restart: always
     ports:
